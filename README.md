@@ -1,4 +1,6 @@
-Entity 생성은 from 메서드를 통해 생성합니다.  
+Entity 생성은 정의되어 있는 from 메서드를 통해 생성합니다.  
+
+```
    public static Example from(ExampleCreateDto exampleCreateDto) {
         Example example = new Example();
         example.word = exampleCreateDto.getWord();
@@ -6,6 +8,7 @@ Entity 생성은 from 메서드를 통해 생성합니다.
         example.sentenceMeaning = exampleCreateDto.getSentenceMeaning;
         return example;
     }
+```
 각자 pull을 당기고 branch를 기능단위 feature로 생성하여 작업을 시작하시면 됩니다.
 현재 올라와 있는 from메서드에 인자로 임시로 정의되어 있는 Dto들은 생성해서 각자 정의해서 사용하도록 합니다.
 
