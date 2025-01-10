@@ -1,4 +1,4 @@
-Entity 생성은 from 메서드를 통해 생성합니다.
+Entity 생성은 from 메서드를 통해 생성합니다.  
    public static Example from(ExampleCreateDto exampleCreateDto) {
         Example example = new Example();
         example.word = exampleCreateDto.getWord();
