@@ -1,34 +1,42 @@
 package est.wordwise.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import java.time.LocalDateTime;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class WordBook {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="word_book_id")
+    @Column(name = "word_book_id")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name="member_id")
+    @JoinColumn(name = "member_id")
     private Member member;
 
     @ManyToOne
-    @JoinColumn(name="word_id")
+    @JoinColumn(name = "word_id")
     private Word word;
 
     private int testCount;
     private int failCount;
 
     private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
-    @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean deleted;
 
     public static WordBook of(Member member, Word word) {

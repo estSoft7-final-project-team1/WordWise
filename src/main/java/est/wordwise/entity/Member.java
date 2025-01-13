@@ -1,22 +1,27 @@
 package est.wordwise.entity;
 
-import ch.qos.logback.classic.pattern.LineOfCallerConverter;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import java.time.LocalDateTime;
+import java.util.List;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-@Getter
 @Entity
-@NoArgsConstructor
-@Table(name = "MEMBER")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="member_id")
+    @Column(name = "member_id")
     private Long id;
 
     private String email;
@@ -30,9 +35,9 @@ public class Member {
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Boolean deleted = false;
+    private Boolean deleted;
 
-    @OneToMany(mappedBy = "member", cascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<WordBook> wordBooks;
 
     public static Member from(MemberSignupDto memberSignupDto) {
