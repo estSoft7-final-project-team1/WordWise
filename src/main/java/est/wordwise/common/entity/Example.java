@@ -1,4 +1,4 @@
-package est.wordwise.entity;
+package est.wordwise.common.entity;
 
 import est.wordwise.domain.example.dto.ExampleCreateDto;
 import jakarta.persistence.Column;

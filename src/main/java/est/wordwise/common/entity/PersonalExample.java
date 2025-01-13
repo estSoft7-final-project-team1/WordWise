@@ -1,4 +1,4 @@
-package est.wordwise.entity;
+package est.wordwise.common.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -46,5 +46,5 @@ public class PersonalExample {
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
-    
+
 }
