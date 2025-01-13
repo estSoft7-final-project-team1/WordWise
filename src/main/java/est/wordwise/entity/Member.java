@@ -1,5 +1,6 @@
 package est.wordwise.entity;
 
+import est.wordwise.domain.member.dto.MemberSignupDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -55,6 +56,7 @@ public class Member {
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
     }
 
 }

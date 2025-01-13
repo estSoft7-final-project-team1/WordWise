@@ -1,5 +1,6 @@
 package est.wordwise.entity;
 
+import est.wordwise.domain.example.dto.ExampleCreateDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,11 +31,11 @@ public class Example {
 
     private boolean deleted;
 
-    public static Example from(ExampleCreateDto exampleCreateDto) {
+    public static Example from(Word word, ExampleCreateDto exampleCreateDto) {
         Example example = new Example();
-        example.word = exampleCreateDto.getWord();
+        example.word = word;
         example.sentence = exampleCreateDto.getSentence();
-        example.sentenceMeaning = exampleCreateDto.getSentenceMeaning;
+        example.sentenceMeaning = exampleCreateDto.getSentenceMeaning();
         return example;
     }
 
