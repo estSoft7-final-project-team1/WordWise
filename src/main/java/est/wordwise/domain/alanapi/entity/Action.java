@@ -1,4 +1,4 @@
-package est.wordwise.domain.alanapi.response;
+package est.wordwise.domain.alanapi.entity;
 
 import lombok.Data;
 
