@@ -23,7 +23,13 @@ public class AlanApiService {
 
     private final AlanApiClientConfig alanApiClientConfig;
 
-    public ResponseContent getContentFromApiWithQuestion(String question) throws AlanApiException {
+    public ResponseContent getResponseContentFromApiWithQuery(String query) {
+        return parseJsonToResponseContent(
+            getContentFromApiWithQuery(query)
+        );
+    }
+
+    public String getContentFromApiWithQuery(String query) throws AlanApiException {
         RestClient restClientWithBaseUrl = RestClient.create(alanApiClientConfig.getUrl());
 
         Response response;
@@ -32,7 +38,7 @@ public class AlanApiService {
             response = restClientWithBaseUrl.get()
                 .uri(uriBuilder -> uriBuilder
                     .path(QUESTION)
-                    .queryParam(PARAM_QUESTION, question)
+                    .queryParam(PARAM_QUESTION, query)
                     .queryParam(PARAM_CLIENT_ID, alanApiClientConfig.getId())
                     .build())
                 .retrieve()
@@ -45,7 +51,7 @@ public class AlanApiService {
             throw new AlanApiException(AlanApiErrorCode.NULL_RESPONSE_ERROR);
         }
 
-        return parseJsonToResponseContent(response.getContent());
+        return response.getContent();
     }
 
     public ResponseContent parseJsonToResponseContent(String jsonContent) {

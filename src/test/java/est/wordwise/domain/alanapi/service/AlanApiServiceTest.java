@@ -31,4 +31,15 @@ class AlanApiServiceTest {
         assertThat(responseContent.getWord()).isEqualTo("consist");
         log.info("responseContent = {}", responseContent);
     }
+
+    @Test
+    @DisplayName("Alan API 요청-응답 테스트")
+    void alanApiTest() throws Exception {
+        String query = "Yes 라고 대답해봐";
+
+        String answer = alanApiService.getContentFromApiWithQuery(query);
+
+        assertThat(answer).contains("Yes");
+        log.info("answer = {}", answer);
+    }
 }

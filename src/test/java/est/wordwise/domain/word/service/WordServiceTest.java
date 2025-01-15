@@ -3,8 +3,10 @@ package est.wordwise.domain.word.service;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import est.wordwise.common.entity.Word;
-import est.wordwise.domain.example.dto.ExampleCreateDto;
+import est.wordwise.domain.alanapi.service.AlanApiService;
+import est.wordwise.domain.example.dto.ExampleDto;
 import est.wordwise.domain.word.dto.WordCreateDto;
+import est.wordwise.domain.word.dto.WordDto;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,12 +24,13 @@ class WordServiceTest {
     @Autowired
     private WordService wordService;
     private WordCreateDto wordCreateDto;
-    private ExampleCreateDto exampleCreateDto;
+    private ExampleDto exampleDto;
+    private AlanApiService alanApiService;
 
     @BeforeEach
     void setUp() {
         wordCreateDto = WordCreateDto.of("general", "일반적인,대체적인,장군");
-        exampleCreateDto = ExampleCreateDto.builder()
+        exampleDto = ExampleDto.builder()
             .sentence("This is a general overview of the project.")
             .sentenceMeaning("이것은 프로젝트의 일반적인 개요입니다.")
             .build();
@@ -51,5 +54,17 @@ class WordServiceTest {
         Word findWord = wordService.getWordByWordText(wordCreateDto.getWordText());
 
         assertThat(findWord.getDefinition()).isEqualTo(wordCreateDto.getDefinition());
+    }
+
+    @Test
+    @DisplayName("Alan API 이용 WordDto 반환 테스트")
+    void generateWordDtoByWordTextTest() throws Exception {
+        String wordText = "general";
+
+        WordDto wordDto = wordService.generateWordDtoByWordText(wordText);
+
+        assertThat(wordDto.getWordText()).isEqualTo(wordText);
+        assertThat(wordDto.getDefinition()).contains("일반적인");
+        assertThat(wordDto.getDefinition()).contains("장군");
     }
 }

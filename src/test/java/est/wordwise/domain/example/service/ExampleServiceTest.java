@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import est.wordwise.common.entity.Example;
 import est.wordwise.common.entity.Word;
-import est.wordwise.domain.example.dto.ExampleCreateDto;
+import est.wordwise.domain.example.dto.ExampleDto;
 import est.wordwise.domain.word.dto.WordCreateDto;
 import est.wordwise.domain.word.service.WordService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,13 +28,13 @@ class ExampleServiceTest {
     private ExampleService exampleService;
 
     private Word word;
-    private ExampleCreateDto exampleCreateDto;
+    private ExampleDto exampleDto;
 
     @BeforeEach
     @Rollback
     void setUp() {
         WordCreateDto wordCreateDto = WordCreateDto.of("general", "일반적인,대체적인,장군");
-        exampleCreateDto = ExampleCreateDto.builder()
+        exampleDto = ExampleDto.builder()
             .sentence("This is a general overview of the project.")
             .sentenceMeaning("이것은 프로젝트의 일반적인 개요입니다.")
             .build();
@@ -46,7 +46,7 @@ class ExampleServiceTest {
     @Test
     @DisplayName("Example create 테스트")
     void createExampleTest() throws Exception {
-        Example findExample = exampleService.createExample(word, exampleCreateDto);
+        Example findExample = exampleService.createExample(word, exampleDto);
 
         assertThat(findExample.getWord().getWordText()).isEqualTo("general");
         assertThat(findExample.getSentence()).contains(

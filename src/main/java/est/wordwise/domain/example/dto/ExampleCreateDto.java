@@ -9,4 +9,11 @@ public class ExampleCreateDto {
 
     private String sentence;
     private String sentenceMeaning;
+
+    public static ExampleCreateDto of(String sentence, String sentenceMeaning) {
+        return ExampleCreateDto.builder()
+            .sentence(sentence)
+            .sentenceMeaning(sentenceMeaning)
+            .build();
+    }
 }

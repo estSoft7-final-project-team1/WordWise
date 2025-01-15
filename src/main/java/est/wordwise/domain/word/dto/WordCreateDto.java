@@ -9,4 +9,11 @@ public class WordCreateDto {
 
     private String wordText;
     private String definition;
+
+    public static WordCreateDto of(String wordText, String definition) {
+        return WordCreateDto.builder()
+            .wordText(wordText)
+            .definition(definition)
+            .build();
+    }
 }
