@@ -1,12 +1,13 @@
 package est.wordwise.common.repository;
+
 import est.wordwise.common.entity.Member;
+import est.wordwise.common.entity.WordBook;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.Optional;
+import java.util.List;
 
 @Repository
-public interface MemberRepository extends JpaRepository<Member, Long> {
-    Optional<Member> findByEmail(String email);
-    Optional<Member> findById(Long id);
+public interface WordBookRepository extends JpaRepository<WordBook, Long> {
+    List<WordBook> findByMember(Member member);
 
 }

@@ -1,5 +1,6 @@
 package est.wordwise.common.entity;
 
+
 import est.wordwise.domain.security.memberEnums.AuthType;
 import est.wordwise.domain.security.memberEnums.SocialType;
 import jakarta.persistence.*;
@@ -12,13 +13,13 @@ import java.util.List;
 
 @Getter
 @Entity
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "MEMBER")
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="member_id")
+    @Column(name = "member_id")
     private Long id;
 
     private String email;
@@ -27,6 +28,7 @@ public class Member {
     private String phonenumber;
 
     // 경천님이 보시고 enum 쓰시는대로 수정하시면 됩니다
+
     private SocialType provider;
     private AuthType role = AuthType.MEMBER;
 
@@ -44,6 +46,19 @@ public class Member {
         this.nickname = nickname;
         this.password = password;
     }
+  
+  //    public static Member from(MemberSignupDto memberSignupDto) {
+//        Member member = new Member();
+//        member.email = memberSignupDto.getEmail();
+//        member.password = memberSignupDto.getPassword();
+//        member.nickname = memberSignupDto.getNickname();
+//        member.phonenumber = memberSignupDto.getPhonenumber();
+//        member.provider = memberSignupDto.getProvider();
+//        member.role = memberSignupDto.getRole();
+//
+//        return member;
+//    }
+
 
     @PrePersist
     protected void onCreate() {
@@ -51,9 +66,9 @@ public class Member {
         this.updatedAt = LocalDateTime.now();
         this.deleted = false;
     }
-
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
     }
 }
+
