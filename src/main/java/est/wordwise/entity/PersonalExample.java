@@ -35,12 +35,12 @@ public class PersonalExample {
 
     private boolean deleted;
 
-//    public static PersonalExample of(WordBook wordBook, Example example) {
-//        PersonalExample personalExample = new PersonalExample();
-//        personalExample.wordBook = wordBook;
-//        personalExample.example = example;
-//        return personalExample;
-//    }
+    public static PersonalExample of(WordBook wordBook, Example example) {
+        PersonalExample personalExample = new PersonalExample();
+        personalExample.wordBook = wordBook;
+        personalExample.example = example;
+        return personalExample;
+    }
 
     @PrePersist
     protected void onCreate() {
