@@ -4,15 +4,19 @@ import static est.wordwise.domain.alanapi.constants.Constants.PARAM_CLIENT_ID;
 import static est.wordwise.domain.alanapi.constants.Constants.PARAM_QUESTION;
 import static est.wordwise.domain.alanapi.constants.Constants.QUESTION;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import est.wordwise.domain.alanapi.config.AlanApiClientConfig;
-import est.wordwise.domain.alanapi.entity.ApiResponse;
-import est.wordwise.domain.alanapi.entity.ResponseContent;
+import est.wordwise.domain.alanapi.dto.Response;
+import est.wordwise.domain.alanapi.dto.ResponseContent;
 import est.wordwise.domain.alanapi.exception.AlanApiErrorCode;
 import est.wordwise.domain.alanapi.exception.AlanApiException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AlanApiService {
@@ -22,7 +26,7 @@ public class AlanApiService {
     public ResponseContent getContentFromApiWithQuestion(String question) throws AlanApiException {
         RestClient restClientWithBaseUrl = RestClient.create(alanApiClientConfig.getUrl());
 
-        ApiResponse response;
+        Response response;
 
         try {
             response = restClientWithBaseUrl.get()
@@ -32,7 +36,7 @@ public class AlanApiService {
                     .queryParam(PARAM_CLIENT_ID, alanApiClientConfig.getId())
                     .build())
                 .retrieve()
-                .body(ApiResponse.class);
+                .body(Response.class);
         } catch (Exception e) {
             throw new AlanApiException(AlanApiErrorCode.API_ERROR);
         }
@@ -41,11 +45,20 @@ public class AlanApiService {
             throw new AlanApiException(AlanApiErrorCode.NULL_RESPONSE_ERROR);
         }
 
-        return parseJsonToContent(response.getContent());
+        return parseJsonToResponseContent(response.getContent());
     }
 
-    private ResponseContent parseJsonToContent(String jsonContent) {
+    public ResponseContent parseJsonToResponseContent(String jsonContent) {
 
-        return null;
+        ObjectMapper objectMapper = new ObjectMapper();
+        ResponseContent responseContent = null;
+
+        try {
+            responseContent = objectMapper.readValue(jsonContent, ResponseContent.class);
+        } catch (JsonProcessingException e) {
+            log.info("e.getMessage() = {}", e.getMessage());
+        }
+
+        return responseContent;
     }
 }

@@ -5,7 +5,7 @@ import static est.wordwise.domain.alanapi.constants.Constants.WORD_PREFIX;
 
 import est.wordwise.common.entity.Word;
 import est.wordwise.common.repository.WordRepository;
-import est.wordwise.domain.alanapi.entity.ResponseContent;
+import est.wordwise.domain.alanapi.dto.ResponseContent;
 import est.wordwise.domain.alanapi.service.AlanApiService;
 import est.wordwise.domain.example.dto.ExampleDto;
 import java.util.List;

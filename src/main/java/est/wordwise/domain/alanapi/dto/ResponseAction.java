@@ -1,11 +1,11 @@
-package est.wordwise.domain.alanapi.entity;
+package est.wordwise.domain.alanapi.dto;
 
 import lombok.Data;
 
 @Data
-public class Action {
+public class ResponseAction {
 
     private String name;
     private String speak;
-    
+
 }
