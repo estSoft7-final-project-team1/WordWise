@@ -1,17 +1,15 @@
 name: WordWise CI/CD
-
 on:
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write    # 추가
+      packages: write
 
     steps:
     - uses: actions/checkout@v4
@@ -22,18 +20,36 @@ jobs:
         java-version: '21'
         distribution: 'temurin'
 
+    # Gradle Wrapper 검증 단계 추가
+    - name: Validate Gradle wrapper
+      uses: gradle/wrapper-validation-action@v1
+
+    # Gradle 캐시 설정 추가
+    - name: Setup Gradle Cache
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+    
     - name: Grant execute permission for gradlew
+      run: chmod +x ./gradlew
+
+    - name: Print Gradle Version and Project Structure
       run: |
-        chmod +x ./gradlew
-        ./gradlew --version  # 확인을 위해 버전 출력
+        ./gradlew --version
+        ls -la
+        pwd
+        
+    - name: Build with Gradle (Verbose)
+      run: |
+        ./gradlew clean build --stacktrace --info --debug
 
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
-
-    - name: Build with Gradle
-      run: ./gradlew clean build --info
-      
     - name: Upload build artifacts
+      if: success()
       uses: actions/upload-artifact@v4
       with:
         name: build-artifacts
@@ -41,6 +57,7 @@ jobs:
         retention-days: 5
 
     - name: Set up SSH
+      if: success()
       run: |
         mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
@@ -48,6 +65,7 @@ jobs:
         ssh-keyscan -H ec2-3-35-49-212.ap-northeast-2.compute.amazonaws.com >> ~/.ssh/known_hosts
 
     - name: Deploy to EC2
+      if: success()
       run: |
         scp -i ~/.ssh/id_rsa build/libs/*.jar ec2-user@ec2-3-35-49-212.ap-northeast-2.compute.amazonaws.com:~/app/
         ssh -i ~/.ssh/id_rsa ec2-user@ec2-3-35-49-212.ap-northeast-2.compute.amazonaws.com << 'EOF'
