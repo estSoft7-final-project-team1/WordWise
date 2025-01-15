@@ -65,13 +65,11 @@ jobs:
         ssh-keyscan -H ec2-3-35-49-212.ap-northeast-2.compute.amazonaws.com >> ~/.ssh/known_hosts
 
     - name: Deploy to EC2
-      if: success()
       run: |
         scp -i ~/.ssh/id_rsa build/libs/*.jar ec2-user@ec2-3-35-49-212.ap-northeast-2.compute.amazonaws.com:~/app/
+        scp -i ~/.ssh/id_rsa deploy.sh ec2-user@ec2-3-35-49-212.ap-northeast-2.compute.amazonaws.com:~/app/
         ssh -i ~/.ssh/id_rsa ec2-user@ec2-3-35-49-212.ap-northeast-2.compute.amazonaws.com << 'EOF'
           cd ~/app
-          docker stop wordwise || true
-          docker rm wordwise || true
-          docker build -t wordwise .
-          docker run -d --name wordwise -p 8081:8081 wordwise
+          chmod +x deploy.sh
+          ./deploy.sh
         EOF
