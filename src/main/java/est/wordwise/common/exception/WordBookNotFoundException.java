@@ -1,4 +1,4 @@
-package est.wordwise.domain.wordtest.exception;
+package est.wordwise.common.exception;
 
 public class WordBookNotFoundException extends RuntimeException {
     public WordBookNotFoundException(String message) {

@@ -1,4 +1,4 @@
-package est.wordwise.domain.wordtest.exception;
+package est.wordwise.common.exception;
 
 public class SentenceNotFoundException extends RuntimeException {
     public SentenceNotFoundException(String message) {

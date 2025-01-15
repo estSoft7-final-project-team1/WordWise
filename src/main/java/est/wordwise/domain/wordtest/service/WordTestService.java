@@ -7,11 +7,10 @@ import est.wordwise.common.repository.PersonalExampleRepository;
 import est.wordwise.common.repository.WordBookRepository;
 import est.wordwise.domain.wordtest.dto.AnswerDto;
 import est.wordwise.domain.wordtest.dto.WordTestDto;
-import est.wordwise.domain.wordtest.exception.SentenceNotFoundException;
-import est.wordwise.domain.wordtest.exception.WordBookNotFoundException;
+import est.wordwise.common.exception.SentenceNotFoundException;
+import est.wordwise.common.exception.WordBookNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.parsing.Problem;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
