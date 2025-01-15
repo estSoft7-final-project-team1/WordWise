@@ -1,4 +1,4 @@
-package est.wordwise.entity;
+package est.wordwise.common.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,13 +30,13 @@ public class Example {
 
     private boolean deleted;
 
-    public static Example from(ExampleCreateDto exampleCreateDto) {
-        Example example = new Example();
-        example.word = exampleCreateDto.getWord();
-        example.sentence = exampleCreateDto.getSentence();
-        example.sentenceMeaning = exampleCreateDto.getSentenceMeaning;
-        return example;
-    }
+//    public static Example from(ExampleCreateDto exampleCreateDto) {
+//        Example example = new Example();
+//        example.word = exampleCreateDto.getWord();
+//        example.sentence = exampleCreateDto.getSentence();
+//        example.sentenceMeaning = exampleCreateDto.getSentenceMeaning;
+//        return example;
+//    }
 
 }
 
