@@ -1,6 +1,5 @@
 package est.wordwise.common.entity;
 
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,7 +31,6 @@ public class PersonalExample {
     private Example example;
 
     private LocalDateTime createdAt;
-
     private boolean deleted;
 
     public static PersonalExample of(WordBook wordBook, Example example) {
@@ -42,10 +40,8 @@ public class PersonalExample {
         return personalExample;
     }
 
-
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
-
 }

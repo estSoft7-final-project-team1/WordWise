@@ -32,6 +32,7 @@ public class Example {
 
     private boolean deleted;
 
+
     public static Example from(Word word, ExampleDto exampleDto) {
         Example example = new Example();
         example.word = word;

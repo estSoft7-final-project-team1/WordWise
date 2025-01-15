@@ -1,6 +1,5 @@
 package est.wordwise.common.entity;
 
-
 import est.wordwise.domain.member.dto.MemberSignupDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,10 +16,8 @@ import est.wordwise.domain.security.memberEnums.AuthType;
 import est.wordwise.domain.security.memberEnums.SocialType;
 import jakarta.persistence.*;
 import lombok.Builder;
-
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -71,6 +68,7 @@ public class Member {
 //
 //        return member;
 //    }
+
 
 
     @PrePersist
