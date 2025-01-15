@@ -1,10 +1,23 @@
 package est.wordwise.common.entity;
 
 
+import est.wordwise.domain.member.dto.MemberSignupDto;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import java.time.LocalDateTime;
+import java.util.List;
+import lombok.AccessLevel;
 import est.wordwise.domain.security.memberEnums.AuthType;
 import est.wordwise.domain.security.memberEnums.SocialType;
 import jakarta.persistence.*;
 import lombok.Builder;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

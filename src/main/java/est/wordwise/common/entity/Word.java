@@ -1,6 +1,7 @@
 package est.wordwise.common.entity;
 
 
+import est.wordwise.domain.word.dto.WordCreateDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
