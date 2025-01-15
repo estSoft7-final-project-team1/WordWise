@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PersonalExample {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "personal_example_id")
@@ -32,19 +31,17 @@ public class PersonalExample {
     private Example example;
 
     private LocalDateTime createdAt;
-
     private boolean deleted;
 
-//    public static PersonalExample of(WordBook wordBook, Example example) {
-//        PersonalExample personalExample = new PersonalExample();
-//        personalExample.wordBook = wordBook;
-//        personalExample.example = example;
-//        return personalExample;
-//    }
+    public static PersonalExample of(WordBook wordBook, Example example) {
+        PersonalExample personalExample = new PersonalExample();
+        personalExample.wordBook = wordBook;
+        personalExample.example = example;
+        return personalExample;
+    }
 
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
     }
-    
 }

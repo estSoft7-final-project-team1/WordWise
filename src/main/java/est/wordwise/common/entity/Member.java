@@ -1,5 +1,6 @@
 package est.wordwise.common.entity;
 
+import est.wordwise.domain.member.dto.MemberSignupDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -10,13 +11,20 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import java.time.LocalDateTime;
 import java.util.List;
-
+import lombok.AccessLevel;
+import est.wordwise.domain.security.memberEnums.AuthType;
+import est.wordwise.domain.security.memberEnums.SocialType;
+import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import java.time.LocalDateTime;
+import java.util.List;
 
-@Entity
 @Getter
-@NoArgsConstructor
+@Entity
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(name = "MEMBER")
 public class Member {
 
     @Id
@@ -30,17 +38,26 @@ public class Member {
     private String phonenumber;
 
     // 경천님이 보시고 enum 쓰시는대로 수정하시면 됩니다
-    private String provider;
-    private String role;
+
+    private SocialType provider;
+    private AuthType role = AuthType.MEMBER;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
-    private Boolean deleted;
+    private Boolean deleted = false;
 
-    @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<WordBook> wordBooks;
 
-//    public static Member from(MemberSignupDto memberSignupDto) {
+    @Builder
+    public Member(Long id, SocialType provider, String email, String nickname, String password) {
+        this.provider = provider;
+        this.email = email;
+        this.nickname = nickname;
+        this.password = password;
+    }
+  
+  //    public static Member from(MemberSignupDto memberSignupDto) {
 //        Member member = new Member();
 //        member.email = memberSignupDto.getEmail();
 //        member.password = memberSignupDto.getPassword();
@@ -52,9 +69,17 @@ public class Member {
 //        return member;
 //    }
 
+
+
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+        this.deleted = false;
     }
-
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }
+
