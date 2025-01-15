@@ -41,17 +41,17 @@ public class Member {
     @OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
     private List<WordBook> wordBooks;
 
-    public static Member from(MemberSignupDto memberSignupDto) {
-        Member member = new Member();
-        member.email = memberSignupDto.getEmail();
-        member.password = memberSignupDto.getPassword();
-        member.nickname = memberSignupDto.getNickname();
-        member.phonenumber = memberSignupDto.getPhonenumber();
-        member.provider = memberSignupDto.getProvider();
-        member.role = memberSignupDto.getRole();
-
-        return member;
-    }
+//    public static Member from(MemberSignupDto memberSignupDto) {
+//        Member member = new Member();
+//        member.email = memberSignupDto.getEmail();
+//        member.password = memberSignupDto.getPassword();
+//        member.nickname = memberSignupDto.getNickname();
+//        member.phonenumber = memberSignupDto.getPhonenumber();
+//        member.provider = memberSignupDto.getProvider();
+//        member.role = memberSignupDto.getRole();
+//
+//        return member;
+//    }
 
     @PrePersist
     protected void onCreate() {

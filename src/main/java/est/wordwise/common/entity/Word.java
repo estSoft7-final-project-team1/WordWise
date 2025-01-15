@@ -31,11 +31,11 @@ public class Word {
 
     private boolean deleted;
 
-    public static Word from(WordCreateDto wordCreateDto) {
-        Word word = new Word();
-        word.wordText = wordCreateDto.getWordText();
-        word.definition = wordCreateDto.getDefinition();
-        return word;
-    }
+//    public static Word from(WordCreateDto wordCreateDto) {
+//        Word word = new Word();
+//        word.wordText = wordCreateDto.getWordText();
+//        word.definition = wordCreateDto.getDefinition();
+//        return word;
+//    }
 
 }
