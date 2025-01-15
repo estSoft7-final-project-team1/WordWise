@@ -1,5 +1,6 @@
 package est.wordwise.common.entity;
 
+
 import est.wordwise.domain.example.dto.ExampleDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

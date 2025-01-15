@@ -1,5 +1,6 @@
 package est.wordwise.common.entity;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,7 +18,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PersonalExample {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "personal_example_id")
@@ -41,6 +41,7 @@ public class PersonalExample {
         personalExample.example = example;
         return personalExample;
     }
+
 
     @PrePersist
     protected void onCreate() {

@@ -1,5 +1,6 @@
 package est.wordwise.common.entity;
 
+
 import est.wordwise.domain.word.dto.WordCreateDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,7 +18,6 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Word {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "word_id")
@@ -25,6 +25,7 @@ public class Word {
 
     private String wordText;
     private String definition;
+
 
     @OneToMany(mappedBy = "word", fetch = FetchType.LAZY)
     List<Example> examples;
