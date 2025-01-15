@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
-public class WordBookServiceTest {
+public class WordBookServicedTest {
 
     @Mock
     private WordBookRepository wordBookRepository;
