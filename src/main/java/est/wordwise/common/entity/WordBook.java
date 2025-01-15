@@ -1,4 +1,4 @@
-package est.wordwise.entity;
+package est.wordwise.common.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;

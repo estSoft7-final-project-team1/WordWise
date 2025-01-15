@@ -1,7 +1,9 @@
-package est.wordwise.entity;
+package est.wordwise.common.entity;
 
-import ch.qos.logback.classic.pattern.LineOfCallerConverter;
+import est.wordwise.domain.security.memberEnums.AuthType;
+import est.wordwise.domain.security.memberEnums.SocialType;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,31 +27,33 @@ public class Member {
     private String phonenumber;
 
     // 경천님이 보시고 enum 쓰시는대로 수정하시면 됩니다
-    private String provider;
-    private String role;
+    private SocialType provider;
+    private AuthType role = AuthType.MEMBER;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Boolean deleted = false;
 
-    @OneToMany(mappedBy = "member", cascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<WordBook> wordBooks;
 
-    public static Member from(MemberSignupDto memberSignupDto) {
-        Member member = new Member();
-        member.email = memberSignupDto.getEmail();
-        member.password = memberSignupDto.getPassword();
-        member.nickname = memberSignupDto.getNickname();
-        member.phonenumber = memberSignupDto.getPhonenumber();
-        member.provider = memberSignupDto.getProvider();
-        member.role = memberSignupDto.getRole();
-
-        return member;
+    @Builder
+    public Member(Long id, SocialType provider, String email, String nickname, String password) {
+        this.provider = provider;
+        this.email = email;
+        this.nickname = nickname;
+        this.password = password;
     }
 
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
+        this.updatedAt = LocalDateTime.now();
+        this.deleted = false;
     }
 
+    @PreUpdate
+    protected void onUpdate() {
+        this.updatedAt = LocalDateTime.now();
+    }
 }

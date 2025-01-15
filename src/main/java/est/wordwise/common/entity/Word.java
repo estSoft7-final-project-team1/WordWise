@@ -1,4 +1,4 @@
-package est.wordwise.entity;
+package est.wordwise.common.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -24,11 +24,11 @@ public class Word {
     @Column(nullable = false, columnDefinition = "boolean default false")
     private boolean deleted;
 
-    public static Word of(WordCreateDto wordCreateDto) {
-        Word word = new Word();
-        word.wordText = wordCreateDto.getWordText();
-        word.definition = wordCreateDto.getDefinition();
-        return word;
-    }
+//    public static Word of(WordCreateDto wordCreateDto) {
+//        Word word = new Word();
+//        word.wordText = wordCreateDto.getWordText();
+//        word.definition = wordCreateDto.getDefinition();
+//        return word;
+//    }
 
 }
