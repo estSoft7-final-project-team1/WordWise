@@ -1,15 +1,15 @@
-package est.wordwise.wordBook.dto;
+package est.wordwise.domain.wordBook.dto;
 
 
-import est.wordwise.entity.WordBook;
-import lombok.AllArgsConstructor;
+import est.wordwise.common.entity.WordBook;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.format.DateTimeFormatter;
 
-@Getter
+@Data
 @NoArgsConstructor
 public class WordBookResponse {
     // 응답 dto

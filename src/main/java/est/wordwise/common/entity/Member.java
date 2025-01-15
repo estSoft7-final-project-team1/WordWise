@@ -1,4 +1,4 @@
-package est.wordwise.entity;
+package est.wordwise.common.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,7 +10,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import java.time.LocalDateTime;
 import java.util.List;
-import lombok.AccessLevel;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

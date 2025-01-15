@@ -1,10 +1,9 @@
 package est.wordwise.wordBook.service;
 
-import est.wordwise.entity.Member;
-import est.wordwise.entity.Word;
-import est.wordwise.entity.WordBook;
-import est.wordwise.repository.WordBookRepository;
-import est.wordwise.wordBook.dto.WordBookResponse;
+import est.wordwise.common.entity.WordBook;
+import est.wordwise.common.repository.WordBookRepository;
+import est.wordwise.domain.wordBook.dto.WordBookResponse;
+import est.wordwise.domain.wordBook.service.WordBookService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -52,8 +51,6 @@ public class WordBookServiceTest {
         // 저장되었는지 검증 후에, assertJ로 검증하려면 조회, getwordBookbyId
         // memberId로 건네줌으로서 wordbook 객체의 word를 가져와서
         // 추가 메서드로 저장했을때와, 조회 했을때의 값이 같을 때
-        wordBookService.getWordBooksByMember("")
-
 
         // member, word 테스트
         Long memberId = 1L;

@@ -1,8 +1,8 @@
-package est.wordwise.wordBook.service;
+package est.wordwise.domain.wordBook.service;
 
-import est.wordwise.entity.WordBook;
-import est.wordwise.repository.WordBookRepository;
-import est.wordwise.wordBook.dto.WordBookResponse;
+import est.wordwise.common.entity.WordBook;
+import est.wordwise.common.repository.WordBookRepository;
+import est.wordwise.domain.wordBook.dto.WordBookResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +18,6 @@ public class WordBookService {
     }
 
     // 단어장 추가, 먼저 완성 후에 테스트, 저장 테스트 먼저 만들고
-    //
     public WordBook addWordBook(WordBook wordBook) {
 
         // dto 에서 받은 정보 + 여기서 정보생성한 다음에 데이터베이스에 저장

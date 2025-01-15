@@ -1,8 +1,8 @@
-package est.wordwise.wordBook.controller;
+package est.wordwise.domain.wordBook.controller;
 
-import est.wordwise.entity.WordBook;
-import est.wordwise.wordBook.dto.WordBookResponse;
-import est.wordwise.wordBook.service.WordBookService;
+import est.wordwise.common.entity.WordBook;
+import est.wordwise.domain.wordBook.dto.WordBookResponse;
+import est.wordwise.domain.wordBook.service.WordBookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

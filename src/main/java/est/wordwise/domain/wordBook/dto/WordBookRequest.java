@@ -1,9 +1,8 @@
-package est.wordwise.wordBook.dto;
+package est.wordwise.domain.wordBook.dto;
 
 
-import est.wordwise.entity.Member;
-import est.wordwise.entity.Word;
-import est.wordwise.entity.WordBook;
+import est.wordwise.common.entity.Member;
+import est.wordwise.common.entity.Word;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Data;
@@ -21,11 +20,6 @@ public class WordBookRequest {
 
     private Long id;
 
-    @Builder
-    public WordBookRequest(Long id) {
-        this.id = id;
-    }
-
     private Member member;
 
     private Word word;
@@ -37,6 +31,7 @@ public class WordBookRequest {
     private LocalDateTime updatedAt;
 
     private boolean deleted;
+
 
     public WordBookRequest(Member member, Word word, int testCount, int failCount) {
         this.member = member;

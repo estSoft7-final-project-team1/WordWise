@@ -1,6 +1,6 @@
-package est.wordwise.repository;
+package est.wordwise.common.repository;
 
-import est.wordwise.entity.WordBook;
+import est.wordwise.common.entity.WordBook;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import org.springframework.data.jpa.repository.Query;
