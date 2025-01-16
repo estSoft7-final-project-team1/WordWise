@@ -1,4 +1,4 @@
-package est.wordwise.domain.alanapi.exception;
+package est.wordwise.common.exception;
 
 import lombok.Getter;
 

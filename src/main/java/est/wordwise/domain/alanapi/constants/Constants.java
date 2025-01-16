@@ -6,11 +6,11 @@ public class Constants {
     public static final String PARAM_QUESTION = "content";
     public static final String PARAM_CLIENT_ID = "client_id";
 
-    public static final String EXAMPLES_BY_WORD_QUERY = """
+    public static final String GET_WORD_DTO_QUERY = """
         영단어나 영어 표현을 줄텐데 답은 단어 뜻, 예문, 예문 해석으로 받고 싶어.
         그리고 해당 영어 표현의 뜻이 여러가지일 경우, 최대한 다양한 뜻을 포함하지만 예문은 꼭 총합 5개만 줘.
         답은 Java에서 바로 객체로 변환할 수 있도록  JSON 방식으로 앞에 ```json 없이 줄래? 무조건 답안 예시대로 대답해.
-        다른 말은 하지 말고 대답은 무조건 답안 예시대로 대답해.
+        응답은 다른 말은 절대 포함하지 말고 무조건 답안 예시대로만 대답해.
         
         답안 예시(한줄):
         
@@ -20,5 +20,4 @@ public class Constants {
         
         
         """;
-    public static final String WORD_PREFIX = "단어는 ";
 }
