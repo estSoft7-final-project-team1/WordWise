@@ -23,7 +23,7 @@ class ExampleServiceTest {
 
     @Autowired
     private WordService wordService;
-
+    
     @Autowired
     private ExampleService exampleService;
 

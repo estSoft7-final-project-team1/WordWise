@@ -23,11 +23,15 @@ class WordServiceTest {
 
     @Autowired
     private WordService wordService;
-    private WordCreateDto wordCreateDto;
-    private ExampleDto exampleDto;
+
+    @Autowired
     private AlanApiService alanApiService;
 
+    private WordCreateDto wordCreateDto;
+    private ExampleDto exampleDto;
+
     @BeforeEach
+    @Rollback
     void setUp() {
         wordCreateDto = WordCreateDto.of("general", "일반적인,대체적인,장군");
         exampleDto = ExampleDto.builder()
