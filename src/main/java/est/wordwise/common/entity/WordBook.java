@@ -1,9 +1,15 @@
 package est.wordwise.common.entity;
 
 
-
-import jakarta.persistence.*;
-
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -46,7 +52,7 @@ public class WordBook {
         this.testCount = testCount;
         this.failCount = failCount;
     }
-  
+
     public static WordBook of(Member member, Word word) {
         WordBook wordBook = new WordBook();
         wordBook.member = member;
@@ -62,6 +68,7 @@ public class WordBook {
 
         this.deleted = false;
     }
+
     // 수정시 자동으로 updateAt 날짜 갱신
     @PreUpdate
     protected void onUpdate() {

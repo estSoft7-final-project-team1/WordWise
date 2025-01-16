@@ -1,20 +1,26 @@
 package est.wordwise.domain.wordBook.service;
 
+import est.wordwise.common.entity.Member;
+import est.wordwise.common.entity.Word;
 import est.wordwise.common.entity.WordBook;
 import est.wordwise.common.repository.WordBookRepository;
 import est.wordwise.domain.wordBook.dto.WordBookResponse;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class WordBookService {
+
     private final WordBookRepository wordBookRepository;
 
-    public WordBookService(WordBookRepository repository) {
-        this.wordBookRepository = repository;
+    public WordBook createWordBook(Member member, Word word) {
+        return wordBookRepository.save(WordBook.of(member, word));
     }
 
     // 단어장 추가, 먼저 완성 후에 테스트, 저장 테스트 먼저 만들고
@@ -36,31 +42,26 @@ public class WordBookService {
         List<WordBook> wordBooks = wordBookRepository.findByMemberIdAndDeletedFalse(memberId);
 
         // DTO로 변환 후 반환
-        return wordBooks.stream()
-                .map(WordBookResponse::fromEntity)
-                .collect(Collectors.toList());
+        return wordBooks.stream().map(WordBookResponse::fromEntity).collect(Collectors.toList());
     }
 
     // 멤버별 단어장에서 단어 검색
     public List<WordBookResponse> searchWordBook(Long memberId, String keyword) {
 
         // 빈 keyword일 경우 memberid로 모든 단어장 조회
-        if( keyword == null || keyword.isEmpty() ) {
+        if (keyword == null || keyword.isEmpty()) {
 
             List<WordBook> wordBooks = wordBookRepository.findByMemberIdAndDeletedFalse(memberId);
 
             // wordBooks를 DTO로 변환 후 반환
-            return wordBooks.stream()
-                    .map(WordBookResponse::fromEntity)
-                    .collect(Collectors.toList());
+            return wordBooks.stream().map(WordBookResponse::fromEntity)
+                .collect(Collectors.toList());
 
         }
         List<WordBook> wordBooks = wordBookRepository.searchWordBook(memberId, keyword);
 
         // searchWordBook의 wordBook DTO로 매핑 후 반환
-        return wordBooks.stream()
-                .map(WordBookResponse::fromEntity)
-                .collect(Collectors.toList());
+        return wordBooks.stream().map(WordBookResponse::fromEntity).collect(Collectors.toList());
     }
 
     // 단어장 삭제
@@ -70,7 +71,7 @@ public class WordBookService {
 
     public WordBookResponse getWordBookResponse(Long id) {
         WordBook wordBook = wordBookRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("WordBook not found"));
+            .orElseThrow(() -> new IllegalArgumentException("WordBook not found"));
         return WordBookResponse.fromEntity(wordBook);
     }
 
