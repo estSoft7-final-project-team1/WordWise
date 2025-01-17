@@ -1,12 +1,26 @@
 package est.wordwise.domain.personalexample.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
+import est.wordwise.common.entity.Example;
 import est.wordwise.common.entity.Member;
+import est.wordwise.common.entity.PersonalExample;
 import est.wordwise.common.entity.Word;
+import est.wordwise.common.entity.WordBook;
+import est.wordwise.common.util.MemberService;
 import est.wordwise.domain.alanapi.dto.ResponseContent;
 import est.wordwise.domain.alanapi.service.AlanApiService;
+import est.wordwise.domain.example.service.ExampleService;
+import est.wordwise.domain.security.memberEnums.SocialType;
+import est.wordwise.domain.word.dto.WordCreateDto;
 import est.wordwise.domain.word.dto.WordDto;
+import est.wordwise.domain.word.service.WordService;
+import est.wordwise.domain.wordBook.service.WordBookService;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
@@ -19,13 +33,22 @@ class PersonalExampleServiceTest {
 
     @Autowired
     private PersonalExampleService personalExampleService;
-
+    @Autowired
+    private WordBookService wordBookService;
     @Autowired
     private AlanApiService alanApiService;
+    @Autowired
+    private MemberService memberService;
+    @Autowired
+    private WordService wordService;
+    @Autowired
+    private ExampleService exampleService;
 
     private Member member;
     private Word word;
     private WordDto wordDto;
+    private WordBook wordBook;
+    List<Example> examples;
 
     @BeforeEach
     @Rollback
@@ -35,17 +58,23 @@ class PersonalExampleServiceTest {
         ResponseContent responseContent = alanApiService.parseJsonToResponseContent(jsonString);
 
         wordDto = WordDto.from(responseContent);
-        member = Member.builder()
-            .id(0L)
-            .email("member1@email.com")
-            .nickname("member1")
-            .build();
+        member = memberService.createMember(
+            Member.builder().provider(SocialType.NAVER).email("member1@email.com")
+                .nickname("member1").password("1234").build());
+        word = wordService.createWord(
+            WordCreateDto.of(wordDto.getWordText(), wordDto.getDefinition()));
+        examples = exampleService.createExamples(word, wordDto.getExampleDtos());
+        wordBook = wordBookService.createWordBook(member, word);
     }
 
-//    @Test
-//    @DisplayName("personalExample create 테스트")
-//    void personalExampleCreateTest() throws Exception {
-//        PersonalExample personalExample = personalExampleService.createPersonalExample(member,
-//            wordDto);
-//    }
+    @Test
+    @Rollback
+    @DisplayName("personalExample create 테스트")
+    void personalExampleCreateTest() throws Exception {
+        PersonalExample findPersonalExample = personalExampleService.createPersonalExample(wordBook,
+            examples.getFirst());
+
+        assertThat(findPersonalExample.getExample().getSentence()).isEqualTo(
+            word.getExamples().getFirst().getSentence());
+    }
 }
