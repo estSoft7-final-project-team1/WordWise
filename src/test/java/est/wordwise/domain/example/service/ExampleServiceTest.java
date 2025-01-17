@@ -23,7 +23,7 @@ class ExampleServiceTest {
 
     @Autowired
     private WordService wordService;
-    
+
     @Autowired
     private ExampleService exampleService;
 
@@ -51,5 +51,6 @@ class ExampleServiceTest {
         assertThat(findExample.getWord().getWordText()).isEqualTo("general");
         assertThat(findExample.getSentence()).contains(
             "This is a general overview of the project.");
+        assertThat(word.getExamples().size()).isEqualTo(1);
     }
 }

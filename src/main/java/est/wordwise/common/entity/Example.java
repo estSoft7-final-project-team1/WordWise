@@ -41,5 +41,9 @@ public class Example {
         return example;
     }
 
+    public void setWord(Word word) {
+        this.word = word;
+        word.getExamples().add(this);
+    }
 }
 

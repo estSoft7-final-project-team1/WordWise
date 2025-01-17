@@ -26,6 +26,9 @@ public class ExampleService {
 
     @Transactional
     public Example createExample(Word word, ExampleDto exampleDto) {
+        Example example = Example.from(word, exampleDto);
+        example.setWord(word);
+        
         return exampleRepository.save(Example.from(word, exampleDto));
     }
 }
