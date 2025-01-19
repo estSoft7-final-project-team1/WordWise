@@ -1,4 +1,4 @@
-package est.wordwise.domain.wordBook.service;
+package est.wordwise.domain.wordbook.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

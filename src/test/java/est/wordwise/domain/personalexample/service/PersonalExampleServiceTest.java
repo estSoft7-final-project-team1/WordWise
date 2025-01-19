@@ -15,7 +15,7 @@ import est.wordwise.domain.security.memberEnums.SocialType;
 import est.wordwise.domain.word.dto.WordCreateDto;
 import est.wordwise.domain.word.dto.WordDto;
 import est.wordwise.domain.word.service.WordService;
-import est.wordwise.domain.wordBook.service.WordBookService;
+import est.wordwise.domain.wordbook.service.WordBookService;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
