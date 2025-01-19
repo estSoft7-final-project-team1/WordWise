@@ -1,10 +1,10 @@
-package est.wordwise.domain.wordBook.service;
+package est.wordwise.domain.wordbook.service;
 
 import est.wordwise.common.entity.Member;
 import est.wordwise.common.entity.Word;
 import est.wordwise.common.entity.WordBook;
 import est.wordwise.common.repository.WordBookRepository;
-import est.wordwise.domain.wordBook.dto.WordBookResponse;
+import est.wordwise.domain.wordbook.dto.WordBookResponse;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -84,6 +84,4 @@ public class WordBookService {
 
     // 전에는 따로 DTO만들어서 엔티티 생성
     // 서비스에서 WordBookRequest로 WordBook 엔티티 생성?
-
-
 }

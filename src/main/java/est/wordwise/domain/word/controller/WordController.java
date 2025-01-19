@@ -26,7 +26,7 @@ public class WordController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<WordDto> createWord(@RequestBody WordDto wordDto) {
+    public ResponseEntity<Long> createWord(@RequestBody WordDto wordDto) {
         return ResponseEntity.ok(
             wordService.saveWordAndExamples(wordDto)
         );

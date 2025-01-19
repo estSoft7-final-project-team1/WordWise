@@ -1,6 +1,8 @@
 package est.wordwise.common.entity;
 
-import est.wordwise.domain.member.dto.MemberSignupDto;
+import est.wordwise.domain.security.memberEnums.AuthType;
+import est.wordwise.domain.security.memberEnums.SocialType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -9,17 +11,14 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
-import est.wordwise.domain.security.memberEnums.AuthType;
-import est.wordwise.domain.security.memberEnums.SocialType;
-import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Entity
@@ -35,7 +34,7 @@ public class Member {
     private String email;
     private String password;
     private String nickname;
-    private String phonenumber;
+    private String phonenumber = "1234";
 
     // 경천님이 보시고 enum 쓰시는대로 수정하시면 됩니다
 
@@ -56,8 +55,8 @@ public class Member {
         this.nickname = nickname;
         this.password = password;
     }
-  
-  //    public static Member from(MemberSignupDto memberSignupDto) {
+
+    //    public static Member from(MemberSignupDto memberSignupDto) {
 //        Member member = new Member();
 //        member.email = memberSignupDto.getEmail();
 //        member.password = memberSignupDto.getPassword();
@@ -70,13 +69,13 @@ public class Member {
 //    }
 
 
-
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
         this.deleted = false;
     }
+
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();

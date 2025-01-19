@@ -1,14 +1,12 @@
-package est.wordwise.domain.wordBook.dto;
+package est.wordwise.domain.wordbook.dto;
 
 
 import est.wordwise.common.entity.Member;
 import est.wordwise.common.entity.Word;
+import java.time.LocalDateTime;
 import lombok.AccessLevel;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 // 기본생성자의 접근제어를 protected로 설정해서 의미없는 객체 생성 체크
 
