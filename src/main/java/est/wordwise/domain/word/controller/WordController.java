@@ -31,4 +31,11 @@ public class WordController {
             wordService.saveWordAndExamples(wordDto)
         );
     }
+    
+    @GetMapping("/{word}/regen")
+    public ResponseEntity<WordDto> getWordRegen(@PathVariable String word) {
+        return ResponseEntity.ok(
+            wordService.regenerateExamples(word)
+        );
+    }
 }
