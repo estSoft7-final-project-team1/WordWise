@@ -98,6 +98,25 @@ class WordServiceTest {
     }
 
     @Test
+    @DisplayName("Alan api 이용 예문 재생성 테스트")
+    void regenerateExamples() throws Exception {
+        String wordText = "consist";
+
+        WordDto wordDto1 = wordService.generateWordDtoByWordText(wordText);
+        WordDto wordDto2 = wordService.regenerateExamples(wordText);
+
+        assertThat(wordDto1.getDefinition()).isEqualTo(wordDto2.getDefinition());
+        for (ExampleDto exampleDto1 : wordDto1.getExampleDtos()) {
+            for (ExampleDto exampleDto2 : wordDto2.getExampleDtos()) {
+                log.info("exampleDto1.getSentence() = {}", exampleDto1.getSentence());
+                log.info("exampleDto2.getSentence() = {}", exampleDto2.getSentence());
+
+                assertThat(exampleDto1.getSentence()).isNotEqualTo(exampleDto2.getSentence());
+            }
+        }
+    }
+
+    @Test
     @Rollback
     @DisplayName("단어, 선택한 예문 단어장에 저장 테스트")
     void saveWordAndExamplesTest() throws Exception {
