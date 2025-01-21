@@ -1,6 +1,9 @@
 package est.wordwise.domain.word.service;
 
-import static est.wordwise.domain.alanapi.constants.Constants.GET_WORD_DTO_QUERY;
+import static est.wordwise.domain.alanapi.constants.Constants.ANSWER_EXAMPLE;
+import static est.wordwise.domain.alanapi.constants.Constants.GENERATE_WORD_DTO_QUERY;
+import static est.wordwise.domain.alanapi.constants.Constants.NEW_LINE;
+import static est.wordwise.domain.alanapi.constants.Constants.WORD_PREFIX;
 
 import est.wordwise.common.entity.Example;
 import est.wordwise.common.entity.Member;
@@ -36,7 +39,18 @@ public class WordService {
 
     // 입력된 단어로 단어, 뜻, 예문, 예문해석 반환
     public WordDto generateWordDtoByWordText(String wordText) {
-        StringBuilder query = new StringBuilder(GET_WORD_DTO_QUERY);
+        StringBuilder query = new StringBuilder(GENERATE_WORD_DTO_QUERY);
+        query.append(ANSWER_EXAMPLE).append(NEW_LINE).append(NEW_LINE)
+            .append(WORD_PREFIX).append(wordText);
+
+        ResponseContent responseContent = alanApiService.getResponseContentFromApiWithQuery(
+            query.toString());
+
+        return WordDto.from(responseContent);
+    }
+
+    public WordDto regenerateWordDtoByWordText(String wordText) {
+        StringBuilder query = new StringBuilder(GENERATE_WORD_DTO_QUERY);
         query.append(wordText);
 
         ResponseContent responseContent = alanApiService.getResponseContentFromApiWithQuery(
