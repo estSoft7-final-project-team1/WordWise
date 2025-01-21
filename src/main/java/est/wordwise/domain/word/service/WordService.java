@@ -3,6 +3,7 @@ package est.wordwise.domain.word.service;
 import static est.wordwise.domain.alanapi.constants.Constants.ANSWER_EXAMPLE;
 import static est.wordwise.domain.alanapi.constants.Constants.GENERATE_WORD_DTO_QUERY;
 import static est.wordwise.domain.alanapi.constants.Constants.NEW_LINE;
+import static est.wordwise.domain.alanapi.constants.Constants.REGEN_EXAMPLES;
 import static est.wordwise.domain.alanapi.constants.Constants.WORD_PREFIX;
 
 import est.wordwise.common.entity.Example;
@@ -49,9 +50,12 @@ public class WordService {
         return WordDto.from(responseContent);
     }
 
-    public WordDto regenerateWordDtoByWordText(String wordText) {
-        StringBuilder query = new StringBuilder(GENERATE_WORD_DTO_QUERY);
-        query.append(wordText);
+    // 예문 재생성
+    // *추가 -> 생성했던 예문 넣고 안겹치게 하기?
+    public WordDto regenerateExamples(String wordText) {
+        StringBuilder query = new StringBuilder(REGEN_EXAMPLES);
+        query.append(ANSWER_EXAMPLE).append(NEW_LINE).append(NEW_LINE)
+            .append(WORD_PREFIX).append(wordText);
 
         ResponseContent responseContent = alanApiService.getResponseContentFromApiWithQuery(
             query.toString());

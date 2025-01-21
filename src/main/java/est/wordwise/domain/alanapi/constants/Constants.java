@@ -23,4 +23,12 @@ public class Constants {
         """;
 
     public static final String WORD_PREFIX = "이제 단어 제시할게.\n";
+
+    public static final String REGEN_EXAMPLES = """
+        너가 이미 응답했던 예문들과는 다른 새로운 예문으로 변경해서 다시 응답해. 이전에 응답한 예문 5개와 이번에 새로 응답할 예문 5개가 절대 중복되면 안돼.
+        응답은 다른 말은 절대 포함하지 말고 무조건 답안 예시대로만 대답해.
+        
+        답안 예시(한줄):
+        
+        """;
 }
