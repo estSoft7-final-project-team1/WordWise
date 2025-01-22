@@ -10,6 +10,7 @@ import est.wordwise.common.util.MemberService;
 import est.wordwise.domain.alanapi.dto.ResponseContent;
 import est.wordwise.domain.alanapi.service.AlanApiService;
 import est.wordwise.domain.example.dto.ExampleDto;
+import est.wordwise.domain.example.service.ExampleService;
 import est.wordwise.domain.security.memberEnums.SocialType;
 import est.wordwise.domain.word.dto.WordCreateDto;
 import est.wordwise.domain.word.dto.WordDto;
@@ -38,6 +39,8 @@ class WordServiceTest {
     private AlanApiService alanApiService;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private ExampleService exampleService;
 
     private WordCreateDto wordCreateDto;
     private ExampleDto exampleDto;
@@ -45,6 +48,7 @@ class WordServiceTest {
     private WordDto wordDto;
     private Member member;
     private Word word;
+
 
     @BeforeEach
     @Rollback
@@ -136,4 +140,25 @@ class WordServiceTest {
             assertThat(personalExample.getExample().getSentence()).contains("consist");
         }
     }
+
+//    @Test
+//    @DisplayName("데이터 삽입")
+//    @Rollback(false)
+//    void WordServiceTest() throws Exception {
+//        String wordText = "rule";
+//
+//        WordDto wordDto = wordService.generateWordDtoByWordText(wordText);
+//        WordDto wordDto2 = wordService.regenerateExamples(wordText);
+//
+//        assertThat(wordDto.getWordText()).isEqualTo(wordText);
+//        for (ExampleDto exampleDto : wordDto.getExampleDtos()) {
+//            assertThat(exampleDto.getSentence()).contains(wordText);
+//        }
+//
+//        Word word = wordService.createWord(
+//            WordCreateDto.of(wordDto.getWordText(), wordDto.getDefinition()));
+//
+//        List<Example> examples = exampleService.createExamples(word, wordDto.getExampleDtos());
+//        List<Example> examples2 = exampleService.createExamples(word, wordDto2.getExampleDtos());
+//    }
 }

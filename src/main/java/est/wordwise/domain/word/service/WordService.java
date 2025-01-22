@@ -38,6 +38,17 @@ public class WordService {
     private final WordBookService wordBookService;
     private final PersonalExampleService personalExampleService;
 
+    // 단어 입력하면 뜻과 예문 반환
+    public WordDto getWord(String wordText) {
+        Word word = getWordByWordText(wordText);
+
+        if (word == null) {
+            return generateWordDtoByWordText(wordText);
+        }
+
+        return null;
+    }
+
     // 입력된 단어로 단어, 뜻, 예문, 예문해석 반환
     public WordDto generateWordDtoByWordText(String wordText) {
         StringBuilder query = new StringBuilder(GENERATE_WORD_DTO_QUERY);
@@ -88,6 +99,6 @@ public class WordService {
     }
 
     public Word getWordByWordText(String wordText) {
-        return wordRepository.findByWordText(wordText).orElse(null);
+        return wordRepository.findByWordTextAndDeletedFalse(wordText).orElse(null);
     }
 }
