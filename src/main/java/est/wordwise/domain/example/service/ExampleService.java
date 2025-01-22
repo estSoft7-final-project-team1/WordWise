@@ -28,7 +28,11 @@ public class ExampleService {
     public Example createExample(Word word, ExampleDto exampleDto) {
         Example example = Example.from(word, exampleDto);
         example.setWord(word);
-        
+
         return exampleRepository.save(Example.from(word, exampleDto));
+    }
+
+    public List<Example> getRandomExamples(Word word) {
+        return exampleRepository.findTop5ByWordIdAndDeletedFalse(word.getId());
     }
 }
