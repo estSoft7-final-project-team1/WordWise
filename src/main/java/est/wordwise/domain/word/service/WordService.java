@@ -32,28 +32,29 @@ import org.springframework.transaction.annotation.Transactional;
 public class WordService {
 
     private final WordRepository wordRepository;
+
     private final AlanApiService alanApiService;
     private final ExampleService exampleService;
     private final MemberService memberService;
     private final WordBookService wordBookService;
     private final PersonalExampleService personalExampleService;
 
-    // 단어 입력하면 뜻과 예문 반환
-    public WordDto getWord(String wordText) {
+    // 단어 정보와 예문 반환
+    public WordDto getWordAndExamples(String wordText) {
         Word word = getWordByWordText(wordText);
 
         if (word == null) {
-            return generateWordDtoByWordText(wordText);
+            return generateWordAndExamples(wordText);
         }
 
-        return null;
+        return getWordAndExamplesByWord(word);
     }
 
-    // 입력된 단어로 단어, 뜻, 예문, 예문해석 반환
-    public WordDto generateWordDtoByWordText(String wordText) {
+    // 단어 정보와 예문 반환 - api로 생성
+    public WordDto generateWordAndExamples(String wordText) {
         StringBuilder query = new StringBuilder(GENERATE_WORD_DTO_QUERY);
-        query.append(ANSWER_EXAMPLE).append(NEW_LINE).append(NEW_LINE)
-            .append(WORD_PREFIX).append(wordText);
+        query.append(ANSWER_EXAMPLE).append(NEW_LINE).append(NEW_LINE).append(WORD_PREFIX)
+            .append(wordText);
 
         ResponseContent responseContent = alanApiService.getResponseContentFromApiWithQuery(
             query.toString());
@@ -61,34 +62,75 @@ public class WordService {
         return WordDto.from(responseContent);
     }
 
-    // 예문 재생성
-    // *추가 -> 생성했던 예문 넣고 안겹치게 하기?
-    public WordDto regenerateExamples(String wordText) {
+    // 단어 정보와 예문 반환 - DB
+    public WordDto getWordAndExamplesByWord(Word word) {
+        List<Example> examples = exampleService.getRandomExamples(word);
+
+        if (examples.size() < 5) {
+            return generateWordAndExamples(word.getWordText());
+        }
+
+        return WordDto.from(word, examples);
+    }
+
+    // 예문 새로고침
+    public WordDto reloadWordAndExamples(WordDto wordDto) {
+        if (wordDto.getExampleDtos().getFirst().getId() == null) {
+            return regenerateWordAndExamples(wordDto.getWordText());
+        }
+
+        return getWordAndExamplesByWordAgain(wordDto);
+    }
+
+    // 예문 새로고침 - 재생성
+    public WordDto regenerateWordAndExamples(String wordText) {
         StringBuilder query = new StringBuilder(REGEN_EXAMPLES);
-        query.append(ANSWER_EXAMPLE).append(NEW_LINE).append(NEW_LINE)
-            .append(WORD_PREFIX).append(wordText);
+        query.append(ANSWER_EXAMPLE).append(NEW_LINE).append(NEW_LINE).append(WORD_PREFIX)
+            .append(wordText);
 
         ResponseContent responseContent = alanApiService.getResponseContentFromApiWithQuery(
             query.toString());
 
         return WordDto.from(responseContent);
+    }
+
+    // 예문 새로고침 - DB
+    public WordDto getWordAndExamplesByWordAgain(WordDto wordDto) {
+        Word word = getWordByWordText(wordDto.getWordText());
+
+        List<Example> examples = exampleService.reloadRandomExamples(word,
+            wordDto.getFormerExampleIds());
+
+        if (examples.size() < 5) {
+            return generateWordAndExamples(word.getWordText());
+        }
+
+        return WordDto.from(word, examples, wordDto);
     }
 
     // 단어와 사용자가 선택한 예문들을 개인 단어장에 저장
     @Transactional
     public Long saveWordAndExamples(WordDto wordDto) {
-        Word word = createWord(
-            WordCreateDto.of(wordDto.getWordText(), wordDto.getDefinition()));
+        // 이미 존재하는 word, examples이면 조회, 없으면 생성
+        Word word = getWordByWordText(wordDto.getWordText());
 
-        List<Example> examples = exampleService.createExamples(word, wordDto.getExampleDtos());
+        if (word == null) {
+            word = createWord(WordCreateDto.of(wordDto.getWordText(), wordDto.getDefinition()));
+        }
+
+        List<Example> examples = wordDto.getExampleDtos().stream()
+            .map(exampleDto -> exampleService.getExampleById(exampleDto.getId())).toList();
+
+        if (examples.getFirst() == null) {
+            examples = exampleService.createExamples(word, wordDto.getExampleDtos());
+        }
 
         Member member = memberService.getCurrentMember();
 
         WordBook wordBook = wordBookService.createWordBook(member, word);
 
         List<PersonalExample> personalExamples = personalExampleService.createPersonalExamples(
-            wordBook, examples
-        );
+            wordBook, examples);
 
         return wordBook.getId();
     }

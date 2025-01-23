@@ -19,9 +19,7 @@ public class ExampleService {
 
     @Transactional
     public List<Example> createExamples(Word word, List<ExampleDto> exampleDtos) {
-        return exampleDtos.stream().map(
-            dto -> createExample(word, dto)
-        ).toList();
+        return exampleDtos.stream().map(dto -> createExample(word, dto)).toList();
     }
 
     @Transactional
@@ -32,7 +30,24 @@ public class ExampleService {
         return exampleRepository.save(Example.from(word, exampleDto));
     }
 
+    public Example getExampleById(Long exampleId) {
+        if (exampleId == null) {
+            return null;
+        }
+
+        return exampleRepository.findById(exampleId).orElse(null);
+    }
+
     public List<Example> getRandomExamples(Word word) {
         return exampleRepository.findTop5ByWordIdAndDeletedFalse(word.getId());
+    }
+
+    public List<Example> reloadRandomExamples(Word word, List<Long> formerExampleIds) {
+        return exampleRepository.findTop5ByWordIdAndIdNotInAndDeletedFalse(word.getId(),
+            formerExampleIds);
+    }
+
+    public List<Example> getAllExamples() {
+        return exampleRepository.findAll();
     }
 }

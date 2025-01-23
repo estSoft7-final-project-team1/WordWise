@@ -10,5 +10,5 @@ public interface ExampleRepository extends JpaRepository<Example, Long> {
 
     List<Example> findTop5ByWordIdAndDeletedFalse(Long wordId);
 
-    List<Example> findTop5ByWordIdAndIdNotIn(Long wordId, List<Long> excludedIds);
+    List<Example> findTop5ByWordIdAndIdNotInAndDeletedFalse(Long wordId, List<Long> excludedIds);
 }

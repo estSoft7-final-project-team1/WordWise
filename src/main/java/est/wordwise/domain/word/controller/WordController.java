@@ -21,7 +21,7 @@ public class WordController {
     @GetMapping("/{word}")
     public ResponseEntity<WordDto> getWord(@PathVariable String word) {
         return ResponseEntity.ok(
-            wordService.generateWordDtoByWordText(word)
+            wordService.getWordAndExamples(word)
         );
     }
 
@@ -31,11 +31,11 @@ public class WordController {
             wordService.saveWordAndExamples(wordDto)
         );
     }
-    
-    @GetMapping("/{word}/regen")
-    public ResponseEntity<WordDto> getWordRegen(@PathVariable String word) {
+
+    @GetMapping("/{word}/reload")
+    public ResponseEntity<WordDto> reloadWord(@RequestBody WordDto wordDto) {
         return ResponseEntity.ok(
-            wordService.regenerateExamples(word)
+            wordService.reloadWordAndExamples(wordDto)
         );
     }
 }
