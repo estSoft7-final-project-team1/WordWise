@@ -6,6 +6,7 @@ public class Constants {
     public static final String QUESTION = "/api/v1/question";
     public static final String PARAM_QUESTION = "content";
     public static final String PARAM_CLIENT_ID = "client_id";
+    public static final int EXAMPLE_AMOUNT = 5;
 
     public static final String GENERATE_WORD_DTO_QUERY = """
         영단어나 영어 표현을 제시할 텐데 답은 단어 뜻, 예문, 예문 해석으로 받고 싶어.

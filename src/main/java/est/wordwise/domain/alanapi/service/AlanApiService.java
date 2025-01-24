@@ -1,9 +1,14 @@
 package est.wordwise.domain.alanapi.service;
 
 import static est.wordwise.common.exception.AlanApiErrorCode.RESPONSE_ERROR;
+import static est.wordwise.domain.alanapi.constants.Constants.ANSWER_EXAMPLE;
+import static est.wordwise.domain.alanapi.constants.Constants.GENERATE_WORD_DTO_QUERY;
+import static est.wordwise.domain.alanapi.constants.Constants.NEW_LINE;
 import static est.wordwise.domain.alanapi.constants.Constants.PARAM_CLIENT_ID;
 import static est.wordwise.domain.alanapi.constants.Constants.PARAM_QUESTION;
 import static est.wordwise.domain.alanapi.constants.Constants.QUESTION;
+import static est.wordwise.domain.alanapi.constants.Constants.REGEN_EXAMPLES;
+import static est.wordwise.domain.alanapi.constants.Constants.WORD_PREFIX;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,9 +34,7 @@ public class AlanApiService {
     // 입력된 쿼리로 word 도메인 객체 반환
     public ResponseContent getResponseContentFromApiWithQuery(String query)
         throws AlanApiException {
-        return parseJsonToResponseContent(
-            getContentFromApiWithQuery(query)
-        );
+        return parseJsonToResponseContent(getContentFromApiWithQuery(query));
     }
 
     // 입력된 쿼리로 alan api로부터 요청-응답 수신
@@ -41,17 +44,11 @@ public class AlanApiService {
         Response response;
 
         try {
-            response = restClientWithBaseUrl.get()
-                .uri(uriBuilder -> {
-                    return uriBuilder
-                        .path(QUESTION)
-                        .queryParam(PARAM_QUESTION,
-                            URLEncoder.encode(query, StandardCharsets.UTF_8))
-                        .queryParam(PARAM_CLIENT_ID, alanApiClientConfig.getId())
-                        .build();
-                })
-                .retrieve()
-                .body(Response.class);
+            response = restClientWithBaseUrl.get().uri(uriBuilder -> {
+                return uriBuilder.path(QUESTION)
+                    .queryParam(PARAM_QUESTION, URLEncoder.encode(query, StandardCharsets.UTF_8))
+                    .queryParam(PARAM_CLIENT_ID, alanApiClientConfig.getId()).build();
+            }).retrieve().body(Response.class);
         } catch (Exception e) {
             throw new AlanApiException(AlanApiErrorCode.API_ERROR);
         }
@@ -80,5 +77,19 @@ public class AlanApiService {
         }
 
         return responseContent;
+    }
+
+    public String getGenerateQuery(String wordText) {
+        StringBuilder query = new StringBuilder(GENERATE_WORD_DTO_QUERY).append(ANSWER_EXAMPLE)
+            .append(NEW_LINE).append(NEW_LINE).append(WORD_PREFIX).append(wordText);
+
+        return query.toString();
+    }
+
+    public String getRegenerateQuery(String wordText) {
+        StringBuilder query = new StringBuilder(REGEN_EXAMPLES).append(ANSWER_EXAMPLE)
+            .append(NEW_LINE).append(NEW_LINE).append(WORD_PREFIX).append(wordText);
+
+        return query.toString();
     }
 }

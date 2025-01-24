@@ -1,10 +1,6 @@
 package est.wordwise.domain.word.service;
 
-import static est.wordwise.domain.alanapi.constants.Constants.ANSWER_EXAMPLE;
-import static est.wordwise.domain.alanapi.constants.Constants.GENERATE_WORD_DTO_QUERY;
-import static est.wordwise.domain.alanapi.constants.Constants.NEW_LINE;
-import static est.wordwise.domain.alanapi.constants.Constants.REGEN_EXAMPLES;
-import static est.wordwise.domain.alanapi.constants.Constants.WORD_PREFIX;
+import static est.wordwise.domain.alanapi.constants.Constants.EXAMPLE_AMOUNT;
 
 import est.wordwise.common.entity.Example;
 import est.wordwise.common.entity.Member;
@@ -52,12 +48,10 @@ public class WordService {
 
     // 단어 정보와 예문 반환 - api로 생성
     public WordDto generateWordAndExamples(String wordText) {
-        StringBuilder query = new StringBuilder(GENERATE_WORD_DTO_QUERY);
-        query.append(ANSWER_EXAMPLE).append(NEW_LINE).append(NEW_LINE).append(WORD_PREFIX)
-            .append(wordText);
+        String query = alanApiService.getGenerateQuery(wordText);
 
         ResponseContent responseContent = alanApiService.getResponseContentFromApiWithQuery(
-            query.toString());
+            query);
 
         return WordDto.from(responseContent);
     }
@@ -66,7 +60,7 @@ public class WordService {
     public WordDto getWordAndExamplesByWord(Word word) {
         List<Example> examples = exampleService.getRandomExamples(word);
 
-        if (examples.size() < 5) {
+        if (examples.size() < EXAMPLE_AMOUNT) {
             return generateWordAndExamples(word.getWordText());
         }
 
@@ -84,12 +78,10 @@ public class WordService {
 
     // 예문 새로고침 - 재생성
     public WordDto regenerateWordAndExamples(String wordText) {
-        StringBuilder query = new StringBuilder(REGEN_EXAMPLES);
-        query.append(ANSWER_EXAMPLE).append(NEW_LINE).append(NEW_LINE).append(WORD_PREFIX)
-            .append(wordText);
+        String query = alanApiService.getRegenerateQuery(wordText);
 
         ResponseContent responseContent = alanApiService.getResponseContentFromApiWithQuery(
-            query.toString());
+            query);
 
         return WordDto.from(responseContent);
     }
@@ -101,7 +93,7 @@ public class WordService {
         List<Example> examples = exampleService.reloadRandomExamples(word,
             wordDto.getFormerExampleIds());
 
-        if (examples.size() < 5) {
+        if (examples.size() < EXAMPLE_AMOUNT) {
             return generateWordAndExamples(word.getWordText());
         }
 
