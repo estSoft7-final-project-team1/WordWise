@@ -11,7 +11,7 @@ import lombok.Data;
 public class PersonalExampleResultDto {
 
     private Long wordBookId;
-    
+
     @Builder.Default
     private List<String> duplicatedPersonalExamples = new ArrayList<>();
     @Builder.Default
@@ -21,10 +21,8 @@ public class PersonalExampleResultDto {
         List<PersonalExample> duplicatedPersonalExamples,
         List<PersonalExample> newPersonalExamples) {
 
-        PersonalExampleResultDto personalExampleResultDto = PersonalExampleResultDto
-            .builder()
-            .wordBookId(wordBookId)
-            .build();
+        PersonalExampleResultDto personalExampleResultDto = PersonalExampleResultDto.builder()
+            .wordBookId(wordBookId).build();
 
         duplicatedPersonalExamples.forEach(
             personalExample -> personalExampleResultDto.duplicatedPersonalExamples.add(
