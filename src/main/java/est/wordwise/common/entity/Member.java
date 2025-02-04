@@ -5,6 +5,8 @@ import est.wordwise.domain.security.memberEnums.SocialType;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -37,8 +39,9 @@ public class Member {
     private String phonenumber = "1234";
 
     // 경천님이 보시고 enum 쓰시는대로 수정하시면 됩니다
-
+    @Enumerated(EnumType.STRING)
     private SocialType provider;
+    @Enumerated(EnumType.STRING)
     private AuthType role = AuthType.MEMBER;
 
     private LocalDateTime createdAt;
