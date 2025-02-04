@@ -1,5 +1,6 @@
 package est.wordwise.domain.wordBook.service;
 
+import est.wordwise.common.entity.Member;
 import est.wordwise.common.entity.WordBook;
 import est.wordwise.common.repository.WordBookRepository;
 import est.wordwise.domain.wordBook.dto.WordBookResponse;

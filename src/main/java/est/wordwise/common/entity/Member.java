@@ -1,6 +1,5 @@
 package est.wordwise.common.entity;
 
-import est.wordwise.domain.member.dto.MemberSignupDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,14 +11,12 @@ import jakarta.persistence.PrePersist;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
-import est.wordwise.domain.security.memberEnums.AuthType;
-import est.wordwise.domain.security.memberEnums.SocialType;
+import est.wordwise.common.entity.commonEnum.memberEnums.AuthType;
+import est.wordwise.common.entity.commonEnum.memberEnums.SocialType;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Getter
 @Entity
@@ -36,6 +33,7 @@ public class Member {
     private String password;
     private String nickname;
     private String phonenumber;
+
 
     // 경천님이 보시고 enum 쓰시는대로 수정하시면 됩니다
 

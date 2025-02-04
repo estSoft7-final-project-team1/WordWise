@@ -5,6 +5,9 @@ package est.wordwise.common.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -27,6 +30,9 @@ public class WordBook {
     @ManyToOne
     @JoinColumn(name = "word_id")
     private Word word;
+
+    @OneToMany(mappedBy = "wordBook", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PersonalExample> personalExamples = new ArrayList<>();
 
     private int testCount;
     private int failCount;
@@ -51,6 +57,8 @@ public class WordBook {
         WordBook wordBook = new WordBook();
         wordBook.member = member;
         wordBook.word = word;
+        wordBook.testCount = 0;
+        wordBook.failCount = 0;
         return wordBook;
     }
 
@@ -66,6 +74,15 @@ public class WordBook {
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public void success() {
+        this.testCount++;
+    }
+    public void fail() {
+        this.failCount++;
+        this.testCount++;
+
     }
 
 }

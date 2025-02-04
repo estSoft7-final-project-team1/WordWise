@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <title>Swiper demo</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+    <!-- Link Swiper's CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+
+    <!-- Demo styles -->
+    <style>
+        html,
+        body {
+            position: relative;
+            height: 100%;
+        }
+
+        body {
+            background: #eee;
+            font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+            font-size: 14px;
+            color: #000;
+            margin: 0;
+            padding: 0;
+        }
+
+        .swiper {
+            margin: 100px auto;
+            width: 320px;
+            height: 240px;
+        }
+
+        .swiper-slide {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: bold;
+            color: #fff;
+            padding: 10px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .swiper-slide:nth-child(1n) {
+            background-color: rgb(206, 17, 17);
+        }
+
+        .swiper-slide:nth-child(2n) {
+            background-color: rgb(0, 140, 255);
+        }
+
+        .swiper-slide:nth-child(3n) {
+            background-color: rgb(10, 184, 111);
+        }
+
+        .swiper-slide:nth-child(4n) {
+            background-color: rgb(211, 122, 7);
+        }
+
+        .swiper-slide:nth-child(5n) {
+            background-color: rgb(118, 163, 12);
+        }
+
+        .swiper-slide:nth-child(6n) {
+            background-color: rgb(180, 10, 47);
+        }
+
+        .swiper-slide:nth-child(7n) {
+            background-color: rgb(35, 99, 19);
+        }
+
+        .swiper-slide:nth-child(8n) {
+            background-color: rgb(0, 68, 255);
+        }
+
+        .swiper-slide:nth-child(9n) {
+            background-color: rgb(218, 12, 218);
+        }
+
+        .swiper-slide:nth-child(10n) {
+            background-color: rgb(54, 94, 77);
+        }
+
+        .answer-box {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+    </style>
+</head>
+
+<body>
+<!-- Swiper -->
+<div class="swiper mySwiper3">
+    <div class="swiper-wrapper">
+        <!-- 반복 구조 시작 -->
+        <div th:each="item : ${testList}" class="swiper-slide"
+             th:data-question="${item.questionId}"
+             th:data-example="${item.exampleId}">
+            <p>Word: <span th:text="${item.word}" id ="answer">Default Word</span></p>
+            <p>Sentence: <span th:text="${item.sentence}" id="sentence">Default Sentence</span></p>
+            <p>Sentence Meaning: <span th:text="${item.sentenceMeaning}" id ="translation">Default Sentence Meaning</span></p>
+        </div>
+        <!-- 반복 구조 끝 -->
+    </div>
+</div>
+<!-- Fixed Answer Input -->
+<div class="answer-box">
+    <input type="text" id="userAnswer" placeholder="Your Answer"/>
+    <button id="checkAnswer" onclick="handleAnswerSubmission(Event)">Check Answer</button>
+    <p id="resultMessage"></p>
+</div>
+
+<button id="showAnswer" style="display: none">정답확인</button>
+
+<div id="resultSection" style="display: none;">
+    <h3>시험이 끝났습니다!</h3>
+    <div id="wrongAnswerList"></div>
+    <button id="retryTestButton">재시험 보기</button>
+    <button id="endTestButton">시험 종료</button>
+</div>
+<!-- Swiper JS -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+<!-- Initialize Swiper -->
+<script>
+    function swipe() {
+        return new Swiper(".mySwiper3", {
+            effect: "coverflow",
+            grabCursor: true,
+            centeredSlides: true,
+            slidesPerView: "auto",
+            coverflowEffect: {
+                rotate: 50,
+                stretch: 0,
+                depth: 100,
+                modifier: 1,
+                slideShadows: true,
+            },
+        });
+    }
+    let swiper3 = swipe();
+    let wrongAnswers = [];
+    const answerCollection = [];
+
+
+    document.getElementById('showAnswer').addEventListener('click', function () {
+        const previousSlide = document.querySelector('.swiper-slide-prev');
+        const correctAnswer = previousSlide.querySelector('#answer')?.textContent || "정보 없음";
+        const sentence = previousSlide.querySelector('#sentence')?.textContent || "정보 없음";
+        const sentenceMeaning = previousSlide.querySelector('#translation')?.textContent || "정보 없음";
+        const userAnswer = document.getElementById('userAnswer').value.trim(); // 유저가 입력한 정답
+
+        const resultMessage = document.getElementById('resultMessage');
+        resultMessage.innerHTML = `
+            <p><strong>사용자가 제출한 정답 :</strong> ${userAnswer}</p>
+            <p><strong>예문 :</strong> ${sentence}</p>
+            <p><strong>해설 :</strong> ${sentenceMeaning}</p>
+            <p><strong>정답:</strong> ${correctAnswer}</p>
+        `;
+        resultMessage.style.color = "blue";
+    });
+
+
+    document.getElementById('checkAnswer').addEventListener('click', handleAnswerSubmission);
+    document.getElementById('userAnswer').addEventListener('keydown', handleAnswerSubmission);
+
+    function handleAnswerSubmission(event) {
+        // 'keydown' 이벤트에서 Enter 키만 처리
+        if (event.type === 'click' || (event.type === 'keydown' && event.key === 'Enter')) {
+            processAnswer();
+        }
+    }
+
+    function processAnswer() {
+        const userAnswer = document.getElementById('userAnswer').value.toLowerCase();
+        if (!userAnswer) {
+            const resultMessage = document.getElementById('resultMessage');
+            resultMessage.textContent = "답을 입력해주세요!";
+            resultMessage.style.color = "orange";
+            return; // 빈 값일 경우 함수 종료
+        }
+
+        const currentSlide = document.querySelector('.swiper-slide-active');
+        const question = currentSlide.getAttribute('data-question').trim();
+        const example = currentSlide.getAttribute('data-example').trim();
+        let isCorrect = false;
+
+        const word = currentSlide.querySelector('#answer')?.textContent || "정보 없음";
+        const sentence = currentSlide.querySelector('#sentence')?.textContent || "정보 없음";
+        const sentenceMeaning = currentSlide.querySelector('#translation')?.textContent || "정보 없음";
+
+        if (!question || !example) {
+            console.error("슬라이드 데이터가 누락되었습니다.");
+            return;
+        }
+
+        if (userAnswer === word) {
+            resultMessage.textContent = "정답입니다!";
+            resultMessage.style.color = "green";
+            // 정답 확인 버튼 숨기기
+            document.getElementById('showAnswer').style.display = "none";
+            // 다음 슬라이드로 이동
+            isCorrect = true;
+            moveToNextSlide()
+        } else {
+            wrongAnswers.push({
+                word: word,
+                sentence: sentence,
+                sentenceMeaning: sentenceMeaning,
+                questionId: question,
+                exampleId: example
+            })
+            isCorrect = false;
+            resultMessage.textContent = "오답입니다. ";
+            resultMessage.style.color = "red";
+            document.getElementById('showAnswer').style.display = "block";
+            moveToNextSlide()
+            console.log("Wrong Answer : {}", wrongAnswers);
+        }
+
+        const answerDto = {
+            answer: word,
+            userAnswer: userAnswer,
+            questionId: question,
+            exampleId: example,
+            isCorrect: isCorrect
+        }
+
+        addAnswerToCollection(answerDto);
+
+    }
+
+
+    // 오답을 기준으로 재시험 생성
+    function createWrongAnswerTest() {
+        // Swiper 인스턴스 삭제
+        swiper3.destroy(true, true);
+
+        // 기존 슬라이드 DOM 제거
+        const swiperWrapper = document.querySelector('.swiper-wrapper');
+        swiperWrapper.innerHTML = '';
+
+        // 틀린 문제를 기반으로 새로운 슬라이드 추가
+        wrongAnswers.forEach((item) => {
+            const slideHtml = `
+            <div class="swiper-slide"
+                 data-question="${item.questionId}"
+                 data-example="${item.exampleId}">
+                <p>Word: <span id="answer">${item.word}</span></p>
+                <p>Sentence: <span id="sentence">${item.sentence}</span></p>
+                <p>Sentence Meaning: <span id="translation">${item.sentenceMeaning}</span></p>
+            </div>`;
+            swiperWrapper.innerHTML += slideHtml;
+        });
+
+        // 새로운 Swiper 인스턴스 생성
+        swiper3 = swipe();
+
+        wrongAnswers = [];
+    }
+
+    // 슬라이드 이동 , 마지막 슬라이드를 넘어갈 경우 처리
+    function moveToNextSlide() {
+        if (swiper3.isEnd) {
+            console.log("도달");
+            testEnd();
+            fetch('/evaluate-answer', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(answerCollection)
+            })
+                .then(response => response.json()) // 백엔드에서 입력받은 데이터를 json 형태로 받아온다
+                .then(data => {// 반환된 json을 data형태로 받아온다.
+                    console.log("worngAnswers : ", wrongAnswers);
+                });
+        } else {
+            swiper3.slideNext();
+        }
+    }
+
+    function addAnswerToCollection(answerDto) {
+        const isDuplicate = answerCollection.some(
+            (item) => item.exampleId === answerDto.exampleId
+        )
+        if (!isDuplicate) {
+            answerCollection.push(answerDto);
+        }
+    }
+
+    function testEnd() {
+        const wrongAnswerList = document.getElementById('wrongAnswerList');
+
+        // 틀린 문제 목록 생성
+        if (wrongAnswers.length > 0) {
+            // 틀린 문제 목록 초기화
+            wrongAnswerList.innerHTML = '<p>아래는 틀린 문제 목록입니다:</p>\n';
+            wrongAnswers.forEach(item => {
+                const listItem = document.createElement('div');
+                listItem.innerHTML = `
+                <p><strong>Word:</strong> ${item.word}</p>
+                <p><strong>Sentence:</strong> ${item.sentence}</p>
+                <p><strong>Meaning:</strong> ${item.sentenceMeaning}</p>
+                <hr>
+            `;
+                wrongAnswerList.appendChild(listItem);
+            });
+        } else {
+            wrongAnswerList.innerHTML = `<p>모든 문제를 맞췄습니다! 축하합니다 🎉</p>`;
+        }
+
+        // 결과 섹션 보여주기
+        document.getElementById('resultSection').style.display = 'block';
+        document.querySelector('.swiper').style.display = 'none';
+        document.querySelector('.answer-box').style.display = 'none';
+        document.getElementById('showAnswer').style.display = "none";
+    }
+
+    // 재시험 기능
+    document.getElementById('retryTestButton').addEventListener('click', function () {
+        createWrongAnswerTest(); // 틀린 문제를 기반으로 재시험 생성
+        document.querySelector('.swiper').style.display = 'block';
+        document.querySelector('.answer-box').style.display = 'block';
+        document.getElementById('resultSection').style.display = 'none';
+    });
+
+    // 시험 종료 기능
+    document.getElementById('endTestButton').addEventListener('click', function () {
+        alert("시험을 종료합니다. 결과는 통계 페이지에서 확인하세요.");
+        window.location.href = "/wordtest/statistics"; // 종료 후 통계 페이지로 리다이렉트
+    });
+</script>
+</body>
+
+</html>
+
+
+<!--        // fetch('/evaluate-answer', {-->
+<!--        //     method: 'POST',-->
+<!--        //     headers: {-->
+<!--        //         'Content-Type': 'application/json'-->
+<!--        //     },-->
+<!--        //     body: JSON.stringify(answerCollection)-->
+<!--        // })-->
+<!--        //     .then(response => response.json()) // 백엔드에서 입력받은 데이터를 json 형태로 받아온다-->
+<!--        //     .then(data => {// 반환된 json을 data형태로 받아온다.-->
+<!--        //         console.log("data : ", data);-->
+<!--        //     //     const resultMessage = document.getElementById('resultMessage');-->
+<!--        //     //-->
+<!--        //     //     if (data.answer) {-->
+<!--        //     //         resultMessage.textContent = "정답입니다!";-->
+<!--        //     //         resultMessage.style.color = "green";-->
+<!--        //     //         // 정답 확인 버튼 숨기기-->
+<!--        //     //         document.getElementById('showAnswer').style.display = "none";-->
+<!--        //     //         // 다음 슬라이드로 이동-->
+<!--        //     //         moveToNextSlide()-->
+<!--        //     //         console.log("Wrong Answer : {}", wrongAnswers);-->
+<!--        //     //     } else {-->
+<!--        //     //         resultMessage.textContent = "오답입니다. ";-->
+<!--        //     //         resultMessage.style.color = "red";-->
+<!--        //     //         document.getElementById('showAnswer').style.display = "block";-->
+<!--        //     //         moveToNextSlide()-->
+<!--        //     //         console.log("Wrong Answer : {}", wrongAnswers);-->
+<!--        //     //     }-->
+<!--        //     // })-->
+<!--        //     // .catch(error => {-->
+<!--        //     //     console.error('Error:', error);-->
+<!--        //      });-->
