@@ -1,4 +1,4 @@
-package est.wordwise.domain.security.memberEnums;
+package est.wordwise.common.entity.commonEnum.memberEnums;
 
 public enum SocialType {
     GOOGLE,

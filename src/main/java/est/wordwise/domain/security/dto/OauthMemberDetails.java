@@ -1,8 +1,8 @@
 package est.wordwise.domain.security.dto;
 
 import est.wordwise.common.entity.Member;
-import est.wordwise.domain.security.memberEnums.AuthType;
-import est.wordwise.domain.security.memberEnums.SocialType;
+import est.wordwise.common.entity.commonEnum.memberEnums.AuthType;
+import est.wordwise.common.entity.commonEnum.memberEnums.SocialType;
 import lombok.*;
 import lombok.experimental.Accessors;
 import org.springframework.security.core.GrantedAuthority;

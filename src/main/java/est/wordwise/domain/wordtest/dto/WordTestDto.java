@@ -15,13 +15,16 @@ public class WordTestDto {
     private String word;
     private String sentence;
     private String sentenceMeaning;
+    private Long questionId;
+    private Long exampleId;
 
-    public static WordTestDto of(String word, String sentence, String sentenceMeaning) {
-
+    public static WordTestDto of(String word, String sentence, String sentenceMeaning, Long questionId, Long exampleId) {
         return WordTestDto.builder()
                 .word(word)
                 .sentence(sentence)
                 .sentenceMeaning(sentenceMeaning)
+                .questionId(questionId)
+                .exampleId(exampleId)
                 .build();
     }
 }

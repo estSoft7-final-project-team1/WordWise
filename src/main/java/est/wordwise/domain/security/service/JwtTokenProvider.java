@@ -5,7 +5,7 @@ import est.wordwise.domain.security.config.JwtConfig;
 import est.wordwise.domain.security.domain.RefreshToken;
 import est.wordwise.domain.security.dto.KeyPair;
 import est.wordwise.domain.security.dto.TokenBody;
-import est.wordwise.domain.security.memberEnums.AuthType;
+import est.wordwise.common.entity.commonEnum.memberEnums.AuthType;
 import est.wordwise.domain.security.repository.TokenRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
