@@ -126,7 +126,7 @@ class WordServiceTest {
     @Rollback
     @DisplayName("단어, 선택한 예문 단어장에 저장 테스트")
     void saveWordAndExamplesTest() throws Exception {
-        Long wordBookId = wordService.saveWordAndExamples(wordDto);
+        Long wordBookId = wordService.saveWordAndExamples(wordDto).getWordBookId();
 
         Optional<WordBook> wordBookOptional = wordBookService.getWordBookById(wordBookId);
         WordBook wordBook = wordBookOptional.orElseGet(null);

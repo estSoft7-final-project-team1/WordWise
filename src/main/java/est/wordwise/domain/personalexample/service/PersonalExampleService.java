@@ -28,4 +28,9 @@ public class PersonalExampleService {
     public PersonalExample createPersonalExample(WordBook wordBook, Example example) {
         return personalExampleRepository.save(PersonalExample.of(wordBook, example));
     }
+
+    public PersonalExample getPersonalExampleByWordBookAndExample(WordBook wordBook,
+        Example example) {
+        return personalExampleRepository.findByWordBookAndExample(wordBook, example).orElse(null);
+    }
 }

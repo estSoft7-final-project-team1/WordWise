@@ -12,10 +12,12 @@ import est.wordwise.common.util.MemberService;
 import est.wordwise.domain.alanapi.dto.ResponseContent;
 import est.wordwise.domain.alanapi.service.AlanApiService;
 import est.wordwise.domain.example.service.ExampleService;
+import est.wordwise.domain.personalexample.dto.PersonalExampleResultDto;
 import est.wordwise.domain.personalexample.service.PersonalExampleService;
 import est.wordwise.domain.word.dto.WordCreateDto;
 import est.wordwise.domain.word.dto.WordDto;
 import est.wordwise.domain.wordbook.service.WordBookService;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,8 +52,7 @@ public class WordService {
     public WordDto generateWordAndExamples(String wordText) {
         String query = alanApiService.getGenerateQuery(wordText);
 
-        ResponseContent responseContent = alanApiService.getResponseContentFromApiWithQuery(
-            query);
+        ResponseContent responseContent = alanApiService.getResponseContentFromApiWithQuery(query);
 
         return WordDto.from(responseContent);
     }
@@ -80,8 +81,7 @@ public class WordService {
     public WordDto regenerateWordAndExamples(String wordText) {
         String query = alanApiService.getRegenerateQuery(wordText);
 
-        ResponseContent responseContent = alanApiService.getResponseContentFromApiWithQuery(
-            query);
+        ResponseContent responseContent = alanApiService.getResponseContentFromApiWithQuery(query);
 
         return WordDto.from(responseContent);
     }
@@ -102,29 +102,48 @@ public class WordService {
 
     // 단어와 사용자가 선택한 예문들을 개인 단어장에 저장
     @Transactional
-    public Long saveWordAndExamples(WordDto wordDto) {
-        // 이미 존재하는 word, examples이면 조회, 없으면 생성
+    public PersonalExampleResultDto saveWordAndExamples(WordDto wordDto) {
+        // 이미 존재하면 조회, 없으면 생성
         Word word = getWordByWordText(wordDto.getWordText());
-
         if (word == null) {
             word = createWord(WordCreateDto.of(wordDto.getWordText(), wordDto.getDefinition()));
         }
 
         List<Example> examples = wordDto.getExampleDtos().stream()
             .map(exampleDto -> exampleService.getExampleById(exampleDto.getId())).toList();
-
         if (examples.getFirst() == null) {
             examples = exampleService.createExamples(word, wordDto.getExampleDtos());
         }
 
         Member member = memberService.getCurrentMember();
 
-        WordBook wordBook = wordBookService.createWordBook(member, word);
+        WordBook wordBook = wordBookService.getWordBookByMemberAndWord(member, word);
+        if (wordBook == null) {
+            wordBook = wordBookService.createWordBook(member, word);
+        }
 
-        List<PersonalExample> personalExamples = personalExampleService.createPersonalExamples(
-            wordBook, examples);
+        // 사용자 단어장에 이미 존재하는 예문과 새로 저장되는 예문 분류
+        List<PersonalExample> duplicatedPersonalExamples = new ArrayList<>();
+        List<PersonalExample> newPersonalExamples = new ArrayList<>();
+        for (Example example : examples) {
+            PersonalExample personalExample = personalExampleService.getPersonalExampleByWordBookAndExample(
+                wordBook, example);
 
-        return wordBook.getId();
+            if (personalExample == null) {
+                newPersonalExamples.add(
+                    personalExampleService.createPersonalExample(wordBook, example));
+                continue;
+            }
+
+            duplicatedPersonalExamples.add(personalExample);
+        }
+
+        if (newPersonalExamples.isEmpty()) {
+            throw new IllegalArgumentException("이미 저장된 예문들입니다!");
+        }
+
+        return PersonalExampleResultDto.of(wordBook.getId(), duplicatedPersonalExamples,
+            newPersonalExamples);
     }
 
     @Transactional

@@ -16,6 +16,10 @@ public class MemberService {
         return memberRepository.findById(id);
     }
 
+    public Member findMemberByIdDev(Long id) {
+        return memberRepository.findById(id).orElse(null);
+    }
+
     public Member createMember(Member member) {
         return memberRepository.save(member);
     }

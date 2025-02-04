@@ -34,6 +34,7 @@ public class AlanApiService {
     // 입력된 쿼리로 word 도메인 객체 반환
     public ResponseContent getResponseContentFromApiWithQuery(String query)
         throws AlanApiException {
+        log.info("alan api 호출! 응답 대기중");
         return parseJsonToResponseContent(getContentFromApiWithQuery(query));
     }
 
@@ -57,6 +58,7 @@ public class AlanApiService {
             throw new AlanApiException(RESPONSE_ERROR);
         }
 
+        log.info("alan api 응답 완료!");
         return response.getContent();
     }
 

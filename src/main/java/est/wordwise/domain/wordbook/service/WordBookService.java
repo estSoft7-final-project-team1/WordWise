@@ -23,6 +23,10 @@ public class WordBookService {
         return wordBookRepository.save(WordBook.of(member, word));
     }
 
+    public WordBook getWordBookByMemberAndWord(Member member, Word word) {
+        return wordBookRepository.findByMemberAndWord(member, word).orElse(null);
+    }
+
     // 단어장 추가, 먼저 완성 후에 테스트, 저장 테스트 먼저 만들고
     public WordBook addWordBook(WordBook wordBook) {
 
