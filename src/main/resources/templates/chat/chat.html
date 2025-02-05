@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Alan Chat</title>
+    <style>
+        .chat-container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+        }
+        .chat-message {
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .user-message {
+            background-color: #e3f2fd;
+            margin-left: 20%;
+        }
+        .bot-message {
+            background-color: #f5f5f5;
+            margin-right: 20%;
+        }
+        input[type="text"] {
+            width: 70%;
+            padding: 10px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<div class="chat-container">
+    <h1>Alan AI 채팅</h1>
+
+    <!-- 채팅 기록 -->
+    <div th:if="${userQuestion} or ${botResponse}">
+        <div class="chat-message user-message" th:text="'나: ' + ${userQuestion}"></div>
+        <div class="chat-message bot-message" th:text="'Alan: ' + ${botResponse}"></div>
+    </div>
+
+    <!-- 오류 메시지 -->
+    <div th:if="${error}" style="color: red;" th:text="${error}"></div>
+
+    <!-- 질문 입력 폼 -->
+    <form th:action="@{/ask}" method="post" th:object="${chatRequest}">
+        <input type="text" th:field="*{question}" placeholder="질문을 입력하세요...">
+        <button type="submit">전송</button>
+    </form>
+</div>
+</body>
+</html>

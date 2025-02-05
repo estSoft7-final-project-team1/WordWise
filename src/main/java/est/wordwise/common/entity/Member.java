@@ -1,20 +1,8 @@
 package est.wordwise.common.entity;
 
-import est.wordwise.domain.security.memberEnums.AuthType;
-import est.wordwise.domain.security.memberEnums.SocialType;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Table;
+import est.wordwise.common.entity.commonEnum.memberEnums.AuthType;
+import est.wordwise.common.entity.commonEnum.memberEnums.SocialType;
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
@@ -36,7 +24,7 @@ public class Member {
     private String email;
     private String password;
     private String nickname;
-    private String phonenumber = "1234";
+    private String phonenumber;
 
     // 경천님이 보시고 enum 쓰시는대로 수정하시면 됩니다
     @Enumerated(EnumType.STRING)

@@ -28,7 +28,7 @@ public class Example {
     private Word word;
 
     private String sentence;
-    private String sentenceMeaning;
+    private String sentenceMeaning; // translation으로 바꾸면 문제되나?
 
     private boolean deleted;
 
