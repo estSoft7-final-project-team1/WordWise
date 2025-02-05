@@ -38,6 +38,10 @@ public class ExampleService {
         return exampleRepository.findById(exampleId).orElse(null);
     }
 
+    public Example getExampleBySentence(String sentence) {
+        return exampleRepository.findBySentenceAndDeletedFalse(sentence).orElse(null);
+    }
+
     public List<Example> getRandomExamples(Word word) {
         return exampleRepository.findTop5ByWordIdAndDeletedFalse(word.getId());
     }
