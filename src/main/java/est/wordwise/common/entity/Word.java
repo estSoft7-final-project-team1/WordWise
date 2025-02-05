@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,6 +19,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Word {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "word_id")
@@ -26,9 +28,8 @@ public class Word {
     private String wordText;
     private String definition;
 
-
     @OneToMany(mappedBy = "word", fetch = FetchType.LAZY)
-    List<Example> examples;
+    List<Example> examples = new ArrayList<>();
 
     private boolean deleted;
 

@@ -1,13 +1,11 @@
-package est.wordwise.domain.wordBook.dto;
+package est.wordwise.domain.wordbook.dto;
 
 
 import est.wordwise.common.entity.WordBook;
+import java.time.format.DateTimeFormatter;
 import lombok.Builder;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import java.time.format.DateTimeFormatter;
 
 @Data
 @NoArgsConstructor
@@ -29,7 +27,8 @@ public class WordBookResponse {
     // @builder로 각 필드를 초기화 해주는게 좋음
     // 인스턴스 멤버 선언 순서에 영향을 받기에, 변수의 순서를 바꾸게되면 생성자 입력값 순서도 바뀌기에
     @Builder
-    public WordBookResponse(Long id, String wordText, String definition, int testCount, int failCount, String createdAt) {
+    public WordBookResponse(Long id, String wordText, String definition, int testCount,
+        int failCount, String createdAt) {
         this.id = id;
         this.wordText = wordText;
         this.definition = definition;
@@ -47,13 +46,13 @@ public class WordBookResponse {
         String formattedDate = wordBook.getCreatedAt().format(formatter);
 
         return WordBookResponse.builder()
-                .id(wordBook.getId())
-                .wordText(wordBook.getWord().getWordText())
-                .definition(wordBook.getWord().getDefinition())
-                .testCount(wordBook.getTestCount())
-                .failCount(wordBook.getFailCount())
-                .createdAt(formattedDate)
-                .build();
+            .id(wordBook.getId())
+            .wordText(wordBook.getWord().getWordText())
+            .definition(wordBook.getWord().getDefinition())
+            .testCount(wordBook.getTestCount())
+            .failCount(wordBook.getFailCount())
+            .createdAt(formattedDate)
+            .build();
     }
     // 추 후 시간을 string으로 보내주지말고 UI에 맞게 반환하도록 추가 로직 구현,
 

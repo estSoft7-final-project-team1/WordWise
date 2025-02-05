@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface WordRepository extends JpaRepository<Word, Long> {
 
-    Optional<Word> findByWordText(String wordText);
+    Optional<Word> findByWordTextAndDeletedFalse(String wordText);
 }

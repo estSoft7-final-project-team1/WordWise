@@ -7,7 +7,6 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,7 +30,7 @@ public class WordBook {
     @JoinColumn(name = "word_id")
     private Word word;
 
-    @OneToMany(mappedBy = "wordBook", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "wordBook", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PersonalExample> personalExamples = new ArrayList<>();
 
     private int testCount;
@@ -52,7 +51,7 @@ public class WordBook {
         this.testCount = testCount;
         this.failCount = failCount;
     }
-  
+
     public static WordBook of(Member member, Word word) {
         WordBook wordBook = new WordBook();
         wordBook.member = member;
@@ -70,6 +69,7 @@ public class WordBook {
 
         this.deleted = false;
     }
+
     // 수정시 자동으로 updateAt 날짜 갱신
     @PreUpdate
     protected void onUpdate() {

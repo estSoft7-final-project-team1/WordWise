@@ -7,6 +7,7 @@ import est.wordwise.common.entity.Word;
 import est.wordwise.domain.example.dto.ExampleDto;
 import est.wordwise.domain.word.dto.WordCreateDto;
 import est.wordwise.domain.word.service.WordService;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -51,5 +52,19 @@ class ExampleServiceTest {
         assertThat(findExample.getWord().getWordText()).isEqualTo("general");
         assertThat(findExample.getSentence()).contains(
             "This is a general overview of the project.");
+        assertThat(word.getExamples().size()).isEqualTo(1);
+    }
+
+    @Rollback
+    @Test
+    @DisplayName("단어로 무작위 예문 가져오기 테스트")
+    void findRandomExamplesByWordId() throws Exception {
+        Word word = wordService.getWordByWordText("rule");
+        List<Example> randomExamples = exampleService.getRandomExamples(word);
+
+        assertThat(randomExamples.size()).isEqualTo(5);
+        for (Example example : randomExamples) {
+            log.info("example.getSentence() = {}", example.getSentence());
+        }
     }
 }
