@@ -62,13 +62,13 @@ jobs:
         mkdir -p ~/.ssh
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
         chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H ec2-3-35-49-212.ap-northeast-2.compute.amazonaws.com >> ~/.ssh/known_hosts
+        ssh-keyscan -H ec2-15-164-97-231.ap-northeast-2.compute.amazonaws.com >> ~/.ssh/known_hosts
 
     - name: Deploy to EC2
       run: |
-        scp -i ~/.ssh/id_rsa build/libs/*.jar ec2-user@ec2-3-35-49-212.ap-northeast-2.compute.amazonaws.com:~/app/
-        scp -i ~/.ssh/id_rsa deploy.sh ec2-user@ec2-3-35-49-212.ap-northeast-2.compute.amazonaws.com:~/app/
-        ssh -i ~/.ssh/id_rsa ec2-user@ec2-3-35-49-212.ap-northeast-2.compute.amazonaws.com << 'EOF'
+        scp -i ~/.ssh/id_rsa build/libs/*.jar manager@ec2-15-164-97-231.ap-northeast-2.compute.amazonaws.com:~/app/
+        scp -i ~/.ssh/id_rsa deploy.sh manager@ec2-15-164-97-231.ap-northeast-2.compute.amazonaws.com:~/app/
+        ssh -i ~/.ssh/id_rsa manager@ec2-15-164-97-231.ap-northeast-2.compute.amazonaws.com << 'EOF'
           cd ~/app
           chmod +x deploy.sh
           ./deploy.sh
