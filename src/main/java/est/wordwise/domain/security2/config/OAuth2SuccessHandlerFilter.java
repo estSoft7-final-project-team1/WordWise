@@ -1,11 +1,11 @@
-package est.wordwise.domain.security.config;
+package est.wordwise.domain.security2.config;
 
 import est.wordwise.common.entity.Member;
-import est.wordwise.domain.security.domain.RefreshToken;
-import est.wordwise.domain.security.dto.KeyPair;
-import est.wordwise.domain.security.dto.OauthMemberDetails;
-import est.wordwise.domain.security.service.JwtTokenProvider;
-import est.wordwise.domain.security.service.OauthMemberService;
+import est.wordwise.domain.security2.domain.RefreshToken;
+import est.wordwise.domain.security2.dto.KeyPair;
+import est.wordwise.domain.security2.dto.OauthMemberDetails;
+import est.wordwise.domain.security2.service.JwtTokenProvider;
+import est.wordwise.domain.security2.service.OauthMemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

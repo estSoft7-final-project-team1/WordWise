@@ -25,7 +25,7 @@ public class WordTestController {
     private final CreateWordTestService createWordTestService;
     private final StatisticsService statisticsService;
 
-    @GetMapping("/start")
+    @GetMapping("")
     public ResponseEntity<List<WordTestDto>> wordTest() {
         long member_id = 1;
         Optional<Member> findMember = memberService.findMemberById(member_id);

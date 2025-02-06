@@ -1,9 +1,9 @@
-package est.wordwise.domain.security.config;
+package est.wordwise.domain.security2.config;
 
-import est.wordwise.domain.security.dto.OauthMemberDetails;
-import est.wordwise.domain.security.dto.TokenBody;
-import est.wordwise.domain.security.service.JwtTokenProvider;
-import est.wordwise.domain.security.service.OauthMemberService;
+import est.wordwise.domain.security2.dto.OauthMemberDetails;
+import est.wordwise.domain.security2.dto.TokenBody;
+import est.wordwise.domain.security2.service.JwtTokenProvider;
+import est.wordwise.domain.security2.service.OauthMemberService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

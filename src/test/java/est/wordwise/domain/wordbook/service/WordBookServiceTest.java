@@ -8,7 +8,7 @@ import est.wordwise.common.entity.WordBook;
 import est.wordwise.domain.member.service.MemberService;
 import est.wordwise.domain.alanapi.dto.ResponseContent;
 import est.wordwise.domain.alanapi.service.AlanApiService;
-import est.wordwise.domain.security.memberEnums.SocialType;
+import est.wordwise.domain.security2.memberEnums.SocialType;
 import est.wordwise.domain.word.dto.WordCreateDto;
 import est.wordwise.domain.word.dto.WordDto;
 import est.wordwise.domain.word.service.WordService;

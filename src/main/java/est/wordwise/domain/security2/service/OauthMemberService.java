@@ -1,8 +1,8 @@
-package est.wordwise.domain.security.service;
+package est.wordwise.domain.security2.service;
 
 import est.wordwise.common.entity.Member;
 import est.wordwise.common.repository.MemberRepository;
-import est.wordwise.domain.security.dto.OauthMemberDetails;
+import est.wordwise.domain.security2.dto.OauthMemberDetails;
 import est.wordwise.common.entity.commonEnum.memberEnums.SocialType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;

@@ -1,4 +1,4 @@
-package est.wordwise.domain.security.config;
+package est.wordwise.domain.security2.config;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
