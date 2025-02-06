@@ -6,6 +6,8 @@ import est.wordwise.common.entity.Word;
 import est.wordwise.common.entity.WordBook;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -28,6 +30,12 @@ public interface WordBookRepository extends JpaRepository<WordBook, Long> {
     List<WordBook> searchWordBook(@Param("memberId") Long memberId,
         @Param("keyword") String keyword);
 
-    Optional<WordBook> findByMemberAndWord(Member member, Word word);
+    Optional<WordBook> findByMemberAndWordAndDeletedFalse(Member member, Word word);
+
+    Page<WordBook> findAllByMemberIdAndDeletedFalse(Long memberId, Pageable pageable);
+
+    Optional<WordBook> findByIdAndDeletedFalse(Long id);
+
+    Optional<WordBook> findByMemberIdAndWordIdandDeletedFalse(Long memberId, Long wordId);
 }
 

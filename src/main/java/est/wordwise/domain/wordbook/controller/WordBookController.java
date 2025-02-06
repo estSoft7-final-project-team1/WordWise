@@ -1,9 +1,13 @@
 package est.wordwise.domain.wordbook.controller;
 
 import est.wordwise.common.entity.WordBook;
+import est.wordwise.domain.wordbook.dto.WordBookDto;
 import est.wordwise.domain.wordbook.dto.WordBookResponse;
 import est.wordwise.domain.wordbook.service.WordBookService;
 import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,8 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/wordbook")
+@RequestMapping("/wordbook")
 public class WordBookController {
 
     // 컨트롤러에서 비즈니스 로직 작성 X
@@ -23,10 +28,6 @@ public class WordBookController {
     // 요청 데이터 dto로 변환 -> service 레이어에서 비즈니스 로직 작성
 
     private final WordBookService wordBookService;
-
-    public WordBookController(WordBookService wordBookService) {
-        this.wordBookService = wordBookService;
-    }
 
     // 멤버별 단어장 {memberId로} 조회
     @GetMapping("/member/{memberId}")
@@ -51,14 +52,6 @@ public class WordBookController {
         return wordBookService.addWordBook(wordBook);
     }
 
-    // 특정 단어장 {id}로 조회
-    @GetMapping("/{id}")
-    public ResponseEntity<WordBook> getWordBookById(@PathVariable Long id) {
-        return wordBookService.getWordBookById(id)
-            .map(ResponseEntity::ok)
-            .orElse(ResponseEntity.notFound().build());
-    }
-
     // 단어장 {id}로 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteWordBook(@PathVariable Long id) {
@@ -76,4 +69,32 @@ public class WordBookController {
 //        return wordBookService.searchWordBook(memberId, keyword);
 //    }
 
+    // 로그인한 유저의 WordBook 리스트를 페이지로 반환
+    @GetMapping
+    public ResponseEntity<Page<WordBookDto>> getAllWordBooks(
+        @RequestParam(value = "page", defaultValue = "0") int page
+    ) {
+        Page<WordBookDto> paging = wordBookService.getWordBookList(page);
+
+        return ResponseEntity.ok(paging);
+    }
+
+    // wordText로 개인 단어장 중에서 검색
+    @GetMapping("/search/{wordText}")
+    public ResponseEntity<?> getWordBookByWordText(@PathVariable String wordText) {
+        WordBookDto wordBookDto = wordBookService.getWordBookByWordText(wordText);
+
+        // 해당 단어가 없으면 에러
+        if (wordBookDto == null) {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("NOT FOUND");
+        }
+
+        return ResponseEntity.ok(wordBookService.getWordBookByWordText(wordText));
+    }
+
+    // id로 단어장 페이지 조회
+    @GetMapping("/{id}")
+    public ResponseEntity<WordBookDto> getWordBook(@PathVariable Long id) {
+        return ResponseEntity.ok(wordBookService.getWordBookDtoById(id));
+    }
 }
