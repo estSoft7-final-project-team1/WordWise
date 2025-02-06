@@ -1,6 +1,6 @@
-package est.wordwise.domain.security.service;
+package est.wordwise.domain.security2.service;
 
-import est.wordwise.domain.security.dto.OauthMemberDetails;
+import est.wordwise.domain.security2.dto.OauthMemberDetails;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 import java.util.Map;

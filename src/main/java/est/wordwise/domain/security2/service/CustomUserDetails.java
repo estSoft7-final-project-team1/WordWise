@@ -1,8 +1,8 @@
-package est.wordwise.domain.security.service;
+package est.wordwise.domain.security2.service;
 
 import est.wordwise.common.entity.Member;
 import est.wordwise.common.repository.MemberRepository;
-import est.wordwise.domain.security.dto.MemberSignupDto;
+import est.wordwise.domain.security2.dto.MemberSignupDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

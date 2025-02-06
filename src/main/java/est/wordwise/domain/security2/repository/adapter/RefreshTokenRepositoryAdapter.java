@@ -1,11 +1,11 @@
-package est.wordwise.domain.security.repository.adapter;
+package est.wordwise.domain.security2.repository.adapter;
 
 import est.wordwise.common.entity.Member;
-import est.wordwise.domain.security.domain.RefreshToken;
-import est.wordwise.domain.security.domain.RefreshTokenBlackList;
-import est.wordwise.domain.security.repository.RefreshTokenBlackListRepository;
-import est.wordwise.domain.security.repository.RefreshTokenRepository;
-import est.wordwise.domain.security.repository.TokenRepository;
+import est.wordwise.domain.security2.domain.RefreshToken;
+import est.wordwise.domain.security2.domain.RefreshTokenBlackList;
+import est.wordwise.domain.security2.repository.RefreshTokenBlackListRepository;
+import est.wordwise.domain.security2.repository.RefreshTokenRepository;
+import est.wordwise.domain.security2.repository.TokenRepository;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

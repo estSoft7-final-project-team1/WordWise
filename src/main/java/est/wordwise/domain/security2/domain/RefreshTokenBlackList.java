@@ -1,4 +1,4 @@
-package est.wordwise.domain.security.domain;
+package est.wordwise.domain.security2.domain;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;

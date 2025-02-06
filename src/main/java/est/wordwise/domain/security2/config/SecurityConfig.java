@@ -1,4 +1,4 @@
-package est.wordwise.domain.security.config;
+package est.wordwise.domain.security2.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
