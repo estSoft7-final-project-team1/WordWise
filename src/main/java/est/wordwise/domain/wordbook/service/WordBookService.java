@@ -3,16 +3,19 @@ package est.wordwise.domain.wordbook.service;
 import est.wordwise.common.entity.Member;
 import est.wordwise.common.entity.Word;
 import est.wordwise.common.entity.WordBook;
+import est.wordwise.common.repository.WordBookQueryRepository;
 import est.wordwise.common.repository.WordBookRepository;
 import est.wordwise.common.util.MemberService;
-import est.wordwise.domain.word.service.WordService;
 import est.wordwise.domain.wordbook.dto.WordBookDto;
+import est.wordwise.domain.wordbook.dto.WordCountDto;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +25,8 @@ public class WordBookService {
     private static final int PAGE_SIZE = 10;
 
     private final WordBookRepository wordBookRepository;
+    private final WordBookQueryRepository wordBookQueryRepository;
     private final MemberService memberService;
-    private final WordService wordService;
 
     public WordBook createWordBook(Member member, Word word) {
         return wordBookRepository.save(WordBook.of(member, word));
@@ -90,6 +93,7 @@ public class WordBookService {
     // 전에는 따로 DTO만들어서 엔티티 생성
     // 서비스에서 WordBookRequest로 WordBook 엔티티 생성?
 
+    // 단어장 전체 조회(페이징)
     public Page<WordBookDto> getWordBookList(int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
 
@@ -101,23 +105,26 @@ public class WordBookService {
         return wordBooks.map(WordBookDto::from);
     }
 
-    public WordBook getWordBookById(Long id) {
-        return wordBookRepository.findByIdAndDeletedFalse(id).orElse(null);
+    // id로 단어장 상세 조회
+    public WordBook getWordBookById(Long wordBookId) {
+        return wordBookRepository.findByIdAndDeletedFalse(wordBookId).orElse(null);
     }
 
+    // id로 단어장 상세 조회(dto)
     public WordBookDto getWordBookDtoById(Long id) {
         return WordBookDto.from(getWordBookById(id));
     }
 
-    public WordBookDto getWordBookByWordText(String wordText) {
-        Member member = memberService.getCurrentMember();
-        Word word = wordService.getWordByWordText(wordText);
-        WordBook wordBook = getWordBookByMemberAndWord(member, word);
-
-        if (wordBook == null) {
-            return null;
-        }
+    // id로 단어장 삭제
+    @Transactional
+    public WordBookDto deleteWordBook(Long wordBookId) {
+        WordBook wordBook = getWordBookById(wordBookId);
+        wordBook.softDelete();
 
         return WordBookDto.from(wordBook);
+    }
+
+    public List<WordCountDto> getWordBookRanking() {
+        return wordBookQueryRepository.getWordBookRanking();
     }
 }

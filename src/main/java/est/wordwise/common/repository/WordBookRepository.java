@@ -36,6 +36,6 @@ public interface WordBookRepository extends JpaRepository<WordBook, Long> {
 
     Optional<WordBook> findByIdAndDeletedFalse(Long id);
 
-    Optional<WordBook> findByMemberIdAndWordIdandDeletedFalse(Long memberId, Long wordId);
+    // Optional<WordBook> findByMemberIdAndWordIdandDeletedFalse(Long memberId, Long wordId);
 }
 
