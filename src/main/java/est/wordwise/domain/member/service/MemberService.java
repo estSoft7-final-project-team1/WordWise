@@ -1,4 +1,4 @@
-package est.wordwise.common.util;
+package est.wordwise.domain.member.service;
 
 import est.wordwise.common.entity.Member;
 import est.wordwise.common.repository.MemberRepository;

@@ -2,7 +2,7 @@ package est.wordwise.domain.wordtest.controller;
 
 
 import est.wordwise.common.entity.Member;
-import est.wordwise.common.util.MemberService;
+import est.wordwise.domain.member.service.MemberService;
 import est.wordwise.domain.wordtest.dto.WordTestDto;
 import est.wordwise.domain.wordtest.service.CreateWordTestService;
 import lombok.RequiredArgsConstructor;
