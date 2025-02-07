@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import est.wordwise.common.entity.Member;
 import est.wordwise.common.entity.Word;
 import est.wordwise.common.entity.WordBook;
-import est.wordwise.domain.member.service.MemberService;
+import est.wordwise.domain.security.service.MemberService;
 import est.wordwise.domain.alanapi.dto.ResponseContent;
 import est.wordwise.domain.alanapi.service.AlanApiService;
 import est.wordwise.domain.security2.memberEnums.SocialType;
