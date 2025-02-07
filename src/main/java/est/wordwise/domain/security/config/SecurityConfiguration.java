@@ -28,16 +28,11 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .formLogin(form ->form
-                        .loginPage("/api/login")
-                        .defaultSuccessUrl("/")
-                        .failureUrl("/api/login")
-                        .permitAll()
-                )
+                .formLogin(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/api/login", "/api/signup")
                         .permitAll()  // 회원가입, H2 콘솔 접근 허용
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .exceptionHandling(
                         exception -> exception.authenticationEntryPoint(
@@ -50,7 +45,6 @@ public class SecurityConfiguration {
                 )
                 .addFilterBefore(jwtTokenFilter,UsernamePasswordAuthenticationFilter.class)
                 .logout(LogoutConfigurer::permitAll)
-                .httpBasic(Customizer.withDefaults())
                 .build();
     }
 
