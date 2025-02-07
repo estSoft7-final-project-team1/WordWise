@@ -9,4 +9,9 @@ public class WordCountDto {
 
     private String wordText;
     private Long count;
+
+    public WordCountDto(String wordText, Long count) {
+        this.wordText = wordText;
+        this.count = count;
+    }
 }

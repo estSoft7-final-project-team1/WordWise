@@ -12,6 +12,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -35,63 +36,6 @@ public class WordBookService {
     public WordBook getWordBookByMemberAndWord(Member member, Word word) {
         return wordBookRepository.findByMemberAndWordAndDeletedFalse(member, word).orElse(null);
     }
-
-//    // 단어장 추가, 먼저 완성 후에 테스트, 저장 테스트 먼저 만들고
-//    public WordBook addWordBook(WordBook wordBook) {
-//
-//        // dto 에서 받은 정보 + 여기서 정보생성한 다음에 데이터베이스에 저장
-//
-//        return wordBookRepository.save(wordBook);
-//    }
-//
-//    // 멤버별 단어장 조회
-//    public List<WordBookResponse> getWordBooksByMember(Long memberId) {
-//        // 멤버 ID로 단어장 조회
-//        List<WordBook> wordBooks = wordBookRepository.findByMemberIdAndDeletedFalse(memberId);
-//
-//        // DTO로 변환 후 반환
-//        return wordBooks.stream().map(WordBookResponse::fromEntity).collect(Collectors.toList());
-//    }
-
-//    // 멤버별 단어장에서 단어 검색
-//    public List<WordBookResponse> searchWordBook(Long memberId, String keyword) {
-//
-//        // 빈 keyword일 경우 memberid로 모든 단어장 조회
-//        if (keyword == null || keyword.isEmpty()) {
-//
-//            List<WordBook> wordBooks = wordBookRepository.findByMemberIdAndDeletedFalse(memberId);
-//
-//            // wordBooks를 DTO로 변환 후 반환
-//            return wordBooks.stream().map(WordBookResponse::fromEntity)
-//                .collect(Collectors.toList());
-//
-//        }
-//        List<WordBook> wordBooks = wordBookRepository.searchWordBook(memberId, keyword);
-//
-//        // searchWordBook의 wordBook DTO로 매핑 후 반환
-//        return wordBooks.stream().map(WordBookResponse::fromEntity).collect(Collectors.toList());
-//    }
-//
-//    // 단어장 삭제
-//    public void deleteWordBook(Long id) {
-//        wordBookRepository.deleteById(id);
-//    }
-//
-//    public WordBookResponse getWordBookResponse(Long id) {
-//        WordBook wordBook = wordBookRepository.findById(id)
-//            .orElseThrow(() -> new IllegalArgumentException("WordBook not found"));
-//        return WordBookResponse.fromEntity(wordBook);
-//    }
-
-    // 여기서 builder패턴으로 dto반환
-
-    // builder 패턴, of, from, to entity로 여기서 생성?, 서비스에서 dto만 넘겨주고 entity에서?
-    // WordBook 엔티티를 -> WordBookRequest, WordBookResponse
-
-    // 서비스에서 비즈니스로직 작성
-
-    // 전에는 따로 DTO만들어서 엔티티 생성
-    // 서비스에서 WordBookRequest로 WordBook 엔티티 생성?
 
     // 단어장 전체 조회(페이징)
     public Page<WordBookDto> getWordBookList(int page) {
@@ -126,5 +70,17 @@ public class WordBookService {
 
     public List<WordCountDto> getWordBookRanking() {
         return wordBookQueryRepository.getWordBookRanking();
+    }
+
+    // 단어별 단어장 등록 횟수(페이징)
+    public Page<WordCountDto> getWordBookRankingInPage(int page) {
+        List<WordCountDto> wordCountDtos = wordBookQueryRepository.getWordBookRanking();
+        PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
+        int start = (int) pageRequest.getOffset();
+        int end = Math.min((start + pageRequest.getPageSize()), wordCountDtos.size());
+
+        return new PageImpl<>(wordCountDtos.subList(start, end),
+            pageRequest,
+            wordCountDtos.size());
     }
 }
