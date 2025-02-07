@@ -2,7 +2,7 @@ package est.wordwise.domain.wordtest.controller;
 
 
 import est.wordwise.common.entity.Member;
-import est.wordwise.common.util.MemberService;
+import est.wordwise.domain.security.service.MemberService;
 import est.wordwise.domain.wordtest.dto.WordTestDto;
 import est.wordwise.domain.wordtest.service.CreateWordTestService;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequestMapping("/wordtest")
 @RequiredArgsConstructor
 @Slf4j
-public class TestController {
+public class TestThymeleafController {
     private final MemberService memberService;
     private final CreateWordTestService createWordTestService;
 
@@ -32,12 +32,11 @@ public class TestController {
     @GetMapping("/start")
     public String wordTest(Model model) {
         long member_id = 1;
-        Optional<Member> findMember = memberService.findMemberById(member_id);
-        List<WordTestDto> wordTestForMember = createWordTestService.createWordTestForMember(findMember.get());
+        Member findMember = memberService.findMemberById(member_id);
+        List<WordTestDto> wordTestForMember = createWordTestService.createWordTestForMember(findMember);
         model.addAttribute("testList", wordTestForMember);
         return "/wordtest/ww";
     }
-
 
 }
 

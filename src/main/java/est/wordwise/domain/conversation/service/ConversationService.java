@@ -9,11 +9,15 @@ import est.wordwise.common.exception.AlanApiErrorCode;
 import est.wordwise.common.exception.AlanApiException;
 import est.wordwise.domain.alanapi.config.AlanApiClientConfig;
 import est.wordwise.domain.alanapi.dto.Response;
+import est.wordwise.common.exception.AlanApiErrorCode;
+import est.wordwise.common.exception.AlanApiException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
+import static est.wordwise.common.exception.AlanApiErrorCode.RESPONSE_ERROR;
+import static est.wordwise.domain.conversation.constants.ConversationConstants.*;
 
 @Slf4j
 @Service
@@ -39,10 +43,8 @@ public class ConversationService {
             log.info("엘런 api오류");
             throw new AlanApiException(AlanApiErrorCode.API_ERROR);
         }
-
         if (response == null) {
-            log.info("답변 없음 오류");
-            throw new AlanApiException(AlanApiErrorCode.NULL_RESPONSE_ERROR);
+            throw new AlanApiException(RESPONSE_ERROR);
         }
 
         return response.getContent();
@@ -65,10 +67,8 @@ public class ConversationService {
             log.info("엘런 api오류");
             throw new AlanApiException(AlanApiErrorCode.API_ERROR);
         }
-
         if (response == null) {
-            log.info("답변 없음 오류");
-            throw new AlanApiException(AlanApiErrorCode.NULL_RESPONSE_ERROR);
+            throw new AlanApiException(RESPONSE_ERROR);
         }
 
         return response.getContent();

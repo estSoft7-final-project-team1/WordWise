@@ -2,6 +2,7 @@ package est.wordwise.common.entity;
 
 import est.wordwise.common.entity.commonEnum.memberEnums.AuthType;
 import est.wordwise.common.entity.commonEnum.memberEnums.SocialType;
+import est.wordwise.domain.security.dto.MemberSignupDto;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -40,24 +41,21 @@ public class Member {
     private List<WordBook> wordBooks;
 
     @Builder
-    public Member(Long id, SocialType provider, String email, String nickname, String password) {
+    public Member(SocialType provider, String email, String nickname, String password) {
         this.provider = provider;
         this.email = email;
         this.nickname = nickname;
         this.password = password;
     }
 
-    //    public static Member from(MemberSignupDto memberSignupDto) {
-//        Member member = new Member();
-//        member.email = memberSignupDto.getEmail();
-//        member.password = memberSignupDto.getPassword();
-//        member.nickname = memberSignupDto.getNickname();
-//        member.phonenumber = memberSignupDto.getPhonenumber();
-//        member.provider = memberSignupDto.getProvider();
-//        member.role = memberSignupDto.getRole();
-//
-//        return member;
-//    }
+        public static Member from(MemberSignupDto memberSignupDto) {
+        Member member = new Member();
+        member.nickname = memberSignupDto.getNickname();
+        member.email = memberSignupDto.getEmail();
+        member.password = memberSignupDto.getPassword();
+        member.provider = SocialType.FORMBASED;
+        return member;
+    }
 
 
     @PrePersist

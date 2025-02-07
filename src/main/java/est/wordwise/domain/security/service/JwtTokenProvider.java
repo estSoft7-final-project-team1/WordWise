@@ -22,8 +22,8 @@ import java.util.Date;
 import java.util.Optional;
 
 @Slf4j
-@Service
 @Transactional
+@Service
 @RequiredArgsConstructor
 public class JwtTokenProvider {
 

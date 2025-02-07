@@ -8,7 +8,7 @@ import est.wordwise.common.entity.PersonalExample;
 import est.wordwise.common.entity.Word;
 import est.wordwise.common.entity.WordBook;
 import est.wordwise.common.repository.WordRepository;
-import est.wordwise.common.util.MemberService;
+import est.wordwise.domain.security.service.MemberService;
 import est.wordwise.domain.alanapi.dto.ResponseContent;
 import est.wordwise.domain.alanapi.service.AlanApiService;
 import est.wordwise.domain.example.service.ExampleService;
