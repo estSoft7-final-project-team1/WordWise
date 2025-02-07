@@ -3,7 +3,6 @@ package est.wordwise.domain.security.service;
 import est.wordwise.common.entity.Member;
 import est.wordwise.common.exception.MemberNotFoundException;
 import est.wordwise.common.repository.MemberRepository;
-import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
