@@ -43,37 +43,35 @@ jobs:
     name: 도커 이미지 빌드 및 푸시
     needs: tagging-releasing
     runs-on: ubuntu-latest
-
     permissions:
       contents: read
       packages: write
       attestations: write
       id-token: write
-
     steps:
       - uses: actions/checkout@v4
-
+      
       - name: 배포 환경 설정
         run: echo "${{ secrets.PROD_YML }}" > src/main/resources/application-prod.yml
-
+      
       - name: 깃허브 컨테이너 레지스트리 로그인
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      # docker push <REGISTRY>/<IMAGE_NAME>:<TAG>
+      
       - name: 이미지 태그 및 라벨 생성
         id: meta
         uses: docker/metadata-action@v5
         with:
         # images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          images: ${{ env.REGISTRY }}/${{ github.repository }
+          images: ${{ env.REGISTRY }}/${{ github.repository }}  # 수정된 부분
           tags: |
             type=sha
             type=raw,value=${{ needs.tagging-releasing.outputs.tag_name }}
             type=raw,value=latest
-
+      # docker push <REGISTRY>/<IMAGE_NAME>:<TAG>
       - name: 이미지 빌드 및 푸시
         uses: docker/build-push-action@v6
         with:
