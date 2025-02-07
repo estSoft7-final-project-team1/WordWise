@@ -11,6 +11,7 @@ RUN ./gradlew dependencies --no-daemon || true
 
 COPY src src
 
+RUN chmod +x ./gradlew
 RUN ./gradlew build --no-daemon -x test
 
 FROM openjdk:21-slim
