@@ -1,4 +1,4 @@
-package est.wordwise.domain.security2.dto;
+package est.wordwise.domain.security.dto;
 
 import lombok.Data;
 

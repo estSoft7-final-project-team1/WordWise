@@ -1,4 +1,4 @@
-package est.wordwise.domain.member.dto;
+package est.wordwise.domain.security.dto;
 
 import lombok.Builder;
 import lombok.Data;

@@ -1,11 +1,10 @@
-package est.wordwise.controller;
+package est.wordwise;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class TestController {
-    
     @GetMapping("/")
     public String hello() {
         return "Welcome to WordWise API";
@@ -15,4 +14,5 @@ public class TestController {
     public String healthCheck() {
         return "OK";
     }
+
 }

@@ -2,7 +2,7 @@ package est.wordwise.common.entity;
 
 import est.wordwise.common.entity.commonEnum.memberEnums.AuthType;
 import est.wordwise.common.entity.commonEnum.memberEnums.SocialType;
-import est.wordwise.domain.member.dto.MemberSignupDto;
+import est.wordwise.domain.security.dto.MemberSignupDto;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
