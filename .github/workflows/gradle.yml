@@ -7,8 +7,8 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  # IMAGE_NAME: ${{ github.repository }}
-  IMAGE_NAME: wordwise-api
+  IMAGE_NAME: ${{ github.repository }}
+  # IMAGE_NAME: wordwise-api
 
 jobs:
 
@@ -67,7 +67,8 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+        # images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ github.repository }
           tags: |
             type=sha
             type=raw,value=${{ needs.tagging-releasing.outputs.tag_name }}
@@ -90,8 +91,3 @@ jobs:
           port: ${{ secrets.SERVER_SSH_PORT }}
           script: |
             ./deploy.sh
-
-
-
-
-      
