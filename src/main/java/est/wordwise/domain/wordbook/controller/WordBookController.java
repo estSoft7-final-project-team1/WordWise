@@ -22,7 +22,7 @@ public class WordBookController {
 
     private final WordBookService wordBookService;
     private final WordBookSearchService wordBookSearchService;
-    
+
     // 로그인한 유저의 WordBook 리스트를 페이지로 반환
     @GetMapping
     public ResponseEntity<Page<WordBookDto>> getAllWordBooks(
@@ -40,10 +40,10 @@ public class WordBookController {
 
         // 해당 단어가 없으면 에러
         if (wordBookDto == null) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("NOT FOUND");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("NOT FOUND");
         }
 
-        return ResponseEntity.ok(wordBookSearchService.getWordBookByWordText(wordText));
+        return ResponseEntity.ok(wordBookDto);
     }
 
     // id로 단어장 페이지 조회
