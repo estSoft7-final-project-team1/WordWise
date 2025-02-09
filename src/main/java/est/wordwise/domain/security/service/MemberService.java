@@ -43,6 +43,6 @@ public class MemberService {
 
     // 임시 멤버 반환
     public Member getCurrentMember() {
-        return memberRepository.findByEmail("member1@email.com").orElse(null);
+        return findMemberById(1L);
     }
 }
