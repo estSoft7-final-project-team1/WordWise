@@ -38,7 +38,9 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/api/login", "/api/signup","/api/signin")
                         .permitAll()  // 회원가입, H2 콘솔 접근 허용
-                        .anyRequest().authenticated()
+                        .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                        .anyRequest().hasAnyAuthority("ROLE_MEMBER", "ROLE_ADMIN")
+//                        .anyRequest().authenticated()
                 )
                 .exceptionHandling(
                         exception -> exception.authenticationEntryPoint(

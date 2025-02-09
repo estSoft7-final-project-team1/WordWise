@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -45,7 +47,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             Authentication authenticationToken = new UsernamePasswordAuthenticationToken(
                     claims.getMemberId(), // 사용자 아이디 또는 로그인 폼에서 입력한 사용자 정보전달
                     token, // 보통 비밀번호를 제출하지만 다른 값이 들어갈 수 있음
-                    memberDetails.getAuthorities() // ?
+                    List.of(new SimpleGrantedAuthority("ROLE_"+claims.getToken())) // role을 직접 설정
+//                    memberDetails.getAuthorities() // ?
             );
             SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         }
