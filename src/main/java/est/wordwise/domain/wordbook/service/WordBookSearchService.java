@@ -3,7 +3,7 @@ package est.wordwise.domain.wordbook.service;
 import est.wordwise.common.entity.Member;
 import est.wordwise.common.entity.Word;
 import est.wordwise.common.entity.WordBook;
-import est.wordwise.common.util.MemberService;
+import est.wordwise.domain.security.service.MemberService;
 import est.wordwise.domain.word.service.WordService;
 import est.wordwise.domain.wordbook.dto.WordBookDto;
 import lombok.RequiredArgsConstructor;

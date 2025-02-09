@@ -2,13 +2,13 @@ package est.wordwise.domain.security.config;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.apache.el.util.Validation;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 @Getter
 @RequiredArgsConstructor
 @ConfigurationProperties(prefix = "custom.jwt")
-public class JwtConfig {
-
+public class JwtConfiguration {
     private final Validation validation;
     private final Secret secret;
 
@@ -21,7 +21,7 @@ public class JwtConfig {
 
     @Getter
     @RequiredArgsConstructor
-    public static class Secret{
+    public static class Secret {
         private final String appKey;
         private final String originKey;
     }

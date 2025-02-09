@@ -1,9 +1,12 @@
 package est.wordwise.domain.security.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class SignUpRequest {
+@Builder
+public class MemberSignupRequest {
+    private String nickname;
     private String email;
     private String password;
 }

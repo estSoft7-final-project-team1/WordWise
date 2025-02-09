@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class TokenBody {
 
     private Long memberId;
-    private String role;
+    private String token;
 }

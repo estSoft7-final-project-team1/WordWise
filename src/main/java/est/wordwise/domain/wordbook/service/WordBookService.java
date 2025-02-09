@@ -5,7 +5,7 @@ import est.wordwise.common.entity.Word;
 import est.wordwise.common.entity.WordBook;
 import est.wordwise.common.repository.WordBookQueryRepository;
 import est.wordwise.common.repository.WordBookRepository;
-import est.wordwise.common.util.MemberService;
+import est.wordwise.domain.security.service.MemberService;
 import est.wordwise.domain.wordbook.dto.WordBookDto;
 import est.wordwise.domain.wordbook.dto.WordCountDto;
 import java.util.List;

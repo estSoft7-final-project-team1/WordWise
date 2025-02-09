@@ -1,105 +1,81 @@
 package est.wordwise.domain.security.service;
 
 import est.wordwise.common.entity.Member;
-import est.wordwise.domain.security.config.JwtConfig;
-import est.wordwise.domain.security.domain.RefreshToken;
-import est.wordwise.domain.security.dto.KeyPair;
+import est.wordwise.domain.security.config.JwtConfiguration;
 import est.wordwise.domain.security.dto.TokenBody;
-import est.wordwise.common.entity.commonEnum.memberEnums.AuthType;
-import est.wordwise.domain.security.repository.TokenRepository;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.*;
+
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
-import java.util.Optional;
+
 
 @Slf4j
-@Transactional
-@Service
+@Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
+    @Value("${custom.jwt.secret.app-key}")
+    private String jwtSecret;
 
-    private final JwtConfig jwtConfig;
-    private final TokenRepository refreshTokenRepositoryAdapter;
+    @Value("${custom.jwt.validation.access}")
+    private long jwtExpirationMs; // 24시간
 
-    public KeyPair generateKeyPair(Member member) {
-        String accessToken = issueAccessToken(member.getId(), member.getRole());
-        String refreshToken = issueRefreshToken(member.getId(), member.getRole());
+    private final JwtConfiguration jwtConfig;
 
-        refreshTokenRepositoryAdapter.save(member, refreshToken);
-
-        return KeyPair.builder()
-                .accessToken(accessToken)
-                .refreshToken(refreshToken)
-                .memberId(member.getId().toString())
-                .build();
-    }
-
-    public String issueAccessToken(Long id, AuthType role){
-        return issue(id, role, jwtConfig.getValidation().getAccess());
-    }
-
-    public String issueRefreshToken(Long id, AuthType role){
-        return issue(id, role, jwtConfig.getValidation().getRefresh());
-    }
-
-    public RefreshToken validateRefreshToken(Long memberId) {
-        Optional<RefreshToken> refreshTokenOptional = refreshTokenRepositoryAdapter.findValidRefreshTokenByMemberId(memberId);
-        return refreshTokenOptional.orElse(null);
-    }
-
-    public String issue(Long memberId, AuthType role, Long validTime){
-        //JWT 유효시간
-        Date endDate = new Date(new Date().getTime() + validTime);
-
-        //header.payload.signature
+    // 토큰생성
+    public String generateJwtToken(Member member) {
         return Jwts.builder()
-                .subject(memberId.toString())
-                .claim("role", role.toString())
-                .issuedAt(new Date())
-                .expiration(endDate)
-                .signWith(getSecretKey(), Jwts.SIG.HS256)
+                .subject(member.getId().toString())
+                .claim("role", member.getRole()) // 토큰에 들어갈 정보
+                .issuedAt(new Date()) // 토큰 생성시간
+                .expiration(new Date(new Date().getTime() + jwtExpirationMs)) // 현시간에서 24시를 더한 후 만료
+                .signWith(getSecretKey(), Jwts.SIG.HS256) // hs256 알고리즘과 주입된 jwtSecret을 이용하여 토큰 서명 후 compact로 토큰 문자열 최종 생성
                 .compact();
     }
 
+    // 비밀키 생성
     private SecretKey getSecretKey() {
         return Keys.hmacShaKeyFor(jwtConfig.getSecret().getAppKey().getBytes());
     }
 
-    public boolean validate(String token) {
-        try{
+    // 토큰 검증
+    public boolean validateToken(String token) {
+        try {
             Jwts.parser()
-                    .verifyWith(getSecretKey())
+                    .verifyWith(getSecretKey()) // 검증용 키 설정
                     .build()
-                    .parseSignedClaims(token);
+                    .parseSignedClaims(token); // jwt 토큰을 파싱하여 서명된 클레임(payload)을 추출하는 메서드
             return true;
-        } catch ( JwtException e ){
-            log.info("Invalid JWT token detected. msg={}", e.getMessage());
-            log.info("token = {}", token);
-        } catch ( IllegalArgumentException e ){
-            log.info("JWT claims String is empty, msg={}", e.getMessage());
-            log.info("token = {}", token);
-        } catch ( Exception e ){
-            log.error("an error occurred while validating token, msg = {}", e.getMessage());
+        } catch (JwtException e) {
+            log.info("Invalid JWT Token Detected. msg = {}", e.getMessage());
+            log.info("TOKEN : {}", token);
+        } catch (IllegalArgumentException e) {
+            log.info("JWT claims String is empty = {}", e.getMessage());
+        } catch (Exception e) {
+            log.error("an error occurred while validating the token. err msg = {}", e.getMessage());
         }
         return false;
     }
-
+    // 검증 후 토큰 추출
     public TokenBody parseJwt(String token) {
+        // jws질문 jwts 질문
         Jws<Claims> parsed = Jwts.parser()
                 .verifyWith(getSecretKey())
                 .build()
                 .parseSignedClaims(token);
+
+        String memberId = parsed.getPayload().getSubject();
+        Object role = parsed.getPayload().get("role");
+
         return new TokenBody(
-                Long.parseLong(parsed.getPayload().getSubject()),
-                parsed.getPayload().get("role").toString());
+                Long.parseLong(memberId),
+                role.toString()
+        );
     }
+
 }
