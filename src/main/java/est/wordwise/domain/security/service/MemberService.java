@@ -4,6 +4,8 @@ import est.wordwise.common.entity.Member;
 import est.wordwise.common.exception.MemberNotFoundException;
 import est.wordwise.common.repository.MemberRepository;
 import java.util.Optional;
+
+import est.wordwise.domain.security.dto.MemberDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +27,10 @@ public class MemberService {
                 .orElseThrow(
                         ()-> new MemberNotFoundException("해당 회원을 찾을 수 없습니다.")
                 );
+    }
+
+    public MemberDetails loadMemberDetailById(Long id) {
+        return MemberDetails.from(findMemberById(id));
     }
 
     public Member findMemberByIdDev(Long id) {

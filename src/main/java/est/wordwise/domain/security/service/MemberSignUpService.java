@@ -5,14 +5,12 @@ import est.wordwise.common.exception.DuplicatedEmailException;
 import est.wordwise.common.exception.DuplicatedNicknameException;
 
 import est.wordwise.common.repository.MemberRepository;
-import est.wordwise.domain.security.dto.MemberSignupDto;
-import est.wordwise.domain.security.dto.SignUpRequest;
+import est.wordwise.domain.security.dto.MemberSignupRequest;
+import est.wordwise.domain.security.dto.SignInRequest;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,9 +18,10 @@ public class MemberSignUpService {
     public final MemberRepository memberRepository;
     public final PasswordEncoder passwordEncoder;
     private final MemberService memberService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @Transactional
-    public void signup(MemberSignupDto request) {
+    public void signup(MemberSignupRequest request) {
         // 이메일 중복 여부 확인
         if (memberRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new DuplicatedEmailException("이미 가입된 이메일 입니다.");
@@ -40,10 +39,13 @@ public class MemberSignUpService {
         memberRepository.save(signUp);
     }
 
-    public void login(SignUpRequest signUpRequest) {
-        Member loginMember = memberService.findMemberByEmail(signUpRequest.getEmail());
-        // 여기서 토큰 찾아서 사용?
-
+    public Member login(SignInRequest signInRequest) {
+        Member loginMember = memberService.findMemberByEmail(signInRequest.getEmail());
+        if(passwordEncoder.matches(signInRequest.getPassword(), loginMember.getPassword())) {
+            return loginMember;
+        } else {
+            throw new RuntimeException("비밀번호가 일치하지 않습니다");
+        }
     }
 
 }
