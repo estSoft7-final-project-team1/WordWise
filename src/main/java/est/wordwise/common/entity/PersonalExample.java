@@ -50,4 +50,8 @@ public class PersonalExample {
         this.wordBook = wordBook;
         wordBook.getPersonalExamples().add(this);
     }
+
+    public void softDelete() {
+        this.deleted = true;
+    }
 }

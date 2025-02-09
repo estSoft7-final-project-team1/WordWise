@@ -16,7 +16,6 @@ import est.wordwise.domain.word.dto.WordCreateDto;
 import est.wordwise.domain.word.dto.WordDto;
 import est.wordwise.domain.wordbook.service.WordBookService;
 import java.util.List;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -128,8 +127,7 @@ class WordServiceTest {
     void saveWordAndExamplesTest() throws Exception {
         Long wordBookId = wordService.saveWordAndExamples(wordDto).getWordBookId();
 
-        Optional<WordBook> wordBookOptional = wordBookService.getWordBookById(wordBookId);
-        WordBook wordBook = wordBookOptional.orElseGet(null);
+        WordBook wordBook = wordBookService.getWordBookById(wordBookId);
         List<PersonalExample> personalExamples = wordBook.getPersonalExamples();
 
         assertThat(wordBook).isNotNull();

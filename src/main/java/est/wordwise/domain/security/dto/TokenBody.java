@@ -1,6 +1,5 @@
 package est.wordwise.domain.security.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
