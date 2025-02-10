@@ -38,6 +38,20 @@ public class MemberSignupController {
         }
     }
 
+    @PostMapping("check-email")
+    public ResponseEntity<Boolean> checkEmail(@RequestBody Map<String,String> req) {
+        log.info("received checkEmailInfo: {}", req);
+        String email = req.get("email");
+        return  ResponseEntity.ok().body(memberSignupService.checkEmail(email));
+    }
+
+    @PostMapping("check-nickname")
+    public ResponseEntity<Boolean> checkNickname(@RequestBody Map<String,String> req) {
+        log.info("received checkNicknameInfo: {}", req);
+        String nickname = req.get("nickname");
+        return  ResponseEntity.ok().body(memberSignupService.checkNickname(nickname));
+    }
+
     @PostMapping("/signin")
     public ResponseEntity<Map<String,String>> login(@RequestBody SignInRequest object) {
         try {

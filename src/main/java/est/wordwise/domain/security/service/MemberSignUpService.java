@@ -12,6 +12,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 @RequiredArgsConstructor
 public class MemberSignUpService {
@@ -22,21 +24,23 @@ public class MemberSignUpService {
 
     @Transactional
     public void signup(MemberSignupRequest request) {
-        // 이메일 중복 여부 확인
-        if (memberRepository.findByEmail(request.getEmail()).isPresent()) {
-            throw new DuplicatedEmailException("이미 가입된 이메일 입니다.");
-        }
 
-        // 닉네임 중복 여부 확인
-        if (memberRepository.findByNickname(request.getNickname()).isPresent()) {
-            throw new DuplicatedNicknameException("이미 가입된 닉네임 입니다.");
-        }
 
         request.setPassword(passwordEncoder.encode(request.getPassword()));
 
         Member signUp = Member.from(request);
 
         memberRepository.save(signUp);
+    }
+
+    public Boolean checkEmail(String email) {
+        Optional<Member> memberOptional = memberRepository.findByEmail(email);
+        return memberOptional.isEmpty();
+    }
+
+    public Boolean checkNickname(String nickname) {
+        Optional<Member> memberOptional = memberRepository.findByNickname(nickname);
+        return memberOptional.isEmpty();
     }
 
     public Member login(SignInRequest signInRequest) {
