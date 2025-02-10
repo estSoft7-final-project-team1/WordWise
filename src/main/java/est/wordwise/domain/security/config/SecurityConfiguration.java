@@ -41,6 +41,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().hasAnyAuthority("ROLE_MEMBER", "ROLE_ADMIN")
 //                        .anyRequest().authenticated()
+
                 )
                 .exceptionHandling(
                         exception -> exception.authenticationEntryPoint(

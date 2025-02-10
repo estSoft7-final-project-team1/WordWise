@@ -58,6 +58,7 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
     }
 
+
     private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");//Authorization, Content-Type, Accept,Cookie, Host 등이 들어갈 수 있음
         // -> "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6..."과 같은 값으로 추출됨
