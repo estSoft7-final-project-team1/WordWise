@@ -21,16 +21,16 @@ public class MemberService {
 
     public Member findMemberById(Long id) {
         return memberRepository.findById(id)
-                .orElseThrow(
-                        ()-> new MemberNotFoundException("해당 회원을 찾을 수 없습니다.")
-                );
+            .orElseThrow(
+                () -> new MemberNotFoundException("해당 회원을 찾을 수 없습니다.")
+            );
     }
 
     public Member findMemberByEmail(String email) {
         return memberRepository.findByEmail(email)
-                .orElseThrow(
-                        ()-> new MemberNotFoundException("해당 회원을 찾을 수 없습니다.")
-                );
+            .orElseThrow(
+                () -> new MemberNotFoundException("해당 회원을 찾을 수 없습니다.")
+            );
     }
 
     public MemberDetails loadMemberDetailById(Long id) {
