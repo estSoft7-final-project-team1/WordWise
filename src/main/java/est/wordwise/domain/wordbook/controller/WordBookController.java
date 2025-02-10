@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/wordbook")
+@RequestMapping("/api/wordbook")
 public class WordBookController {
 
     private final WordBookService wordBookService;
