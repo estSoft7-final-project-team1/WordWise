@@ -3,8 +3,6 @@ package est.wordwise.domain.security.service;
 import est.wordwise.common.entity.Member;
 import est.wordwise.common.exception.MemberNotFoundException;
 import est.wordwise.common.repository.MemberRepository;
-import java.util.Optional;
-
 import est.wordwise.domain.security.dto.MemberDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,16 +15,16 @@ public class MemberService {
 
     public Member findMemberById(Long id) {
         return memberRepository.findById(id)
-                .orElseThrow(
-                        ()-> new MemberNotFoundException("해당 회원을 찾을 수 없습니다.")
-                );
+            .orElseThrow(
+                () -> new MemberNotFoundException("해당 회원을 찾을 수 없습니다.")
+            );
     }
 
     public Member findMemberByEmail(String email) {
         return memberRepository.findByEmail(email)
-                .orElseThrow(
-                        ()-> new MemberNotFoundException("해당 회원을 찾을 수 없습니다.")
-                );
+            .orElseThrow(
+                () -> new MemberNotFoundException("해당 회원을 찾을 수 없습니다.")
+            );
     }
 
     public MemberDetails loadMemberDetailById(Long id) {
@@ -43,6 +41,6 @@ public class MemberService {
 
     // 임시 멤버 반환
     public Member getCurrentMember() {
-        return findMemberById(1L);
+        return findMemberById(51L);
     }
 }

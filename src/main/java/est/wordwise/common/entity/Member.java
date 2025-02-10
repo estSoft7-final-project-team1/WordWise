@@ -3,7 +3,19 @@ package est.wordwise.common.entity;
 import est.wordwise.common.entity.commonEnum.memberEnums.AuthType;
 import est.wordwise.common.entity.commonEnum.memberEnums.SocialType;
 import est.wordwise.domain.security.dto.MemberSignupRequest;
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.AccessLevel;
@@ -25,7 +37,6 @@ public class Member {
     private String email;
     private String password;
     private String nickname;
-    private String phonenumber;
 
     // 경천님이 보시고 enum 쓰시는대로 수정하시면 됩니다
     @Enumerated(EnumType.STRING)
@@ -48,7 +59,7 @@ public class Member {
         this.password = password;
     }
 
-        public static Member from(MemberSignupRequest memberSignupRequest) {
+    public static Member from(MemberSignupRequest memberSignupRequest) {
         Member member = new Member();
         member.nickname = memberSignupRequest.getNickname();
         member.email = memberSignupRequest.getEmail();
