@@ -29,7 +29,7 @@ public class WebSocketHandler extends TextWebSocketHandler {
         // 프롬프트 입력
         String promptResponse = conversationService.getContentFromApiWithPrompt();
         log.info("프롬프트 답변 : {}", promptResponse);
-        session.sendMessage(new TextMessage("안녕하세요 회화봇입니다."));
+        session.sendMessage(new TextMessage("안녕하세요 회화봇입니다. \n당신의 수준을 상 중 하로 답변하세요. \n해당 수준에 맞춰 회화난이도를 조절합니다."));
     }
 
     @Override

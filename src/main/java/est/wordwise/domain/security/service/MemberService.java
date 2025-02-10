@@ -7,10 +7,14 @@ import java.util.Optional;
 
 import est.wordwise.domain.security.dto.MemberDetails;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberService {
 
     private final MemberRepository memberRepository;
@@ -41,8 +45,9 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    // 임시 멤버 반환
+    // 현재 로그인되어 있는 사용자 정보 반환
     public Member getCurrentMember() {
-        return findMemberById(1L);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return findMemberById(Long.parseLong(authentication.getName()));
     }
 }

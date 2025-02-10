@@ -25,7 +25,6 @@ public class Member {
     private String email;
     private String password;
     private String nickname;
-    private String phonenumber;
 
     // 경천님이 보시고 enum 쓰시는대로 수정하시면 됩니다
     @Enumerated(EnumType.STRING)
