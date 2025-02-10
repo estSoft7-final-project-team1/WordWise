@@ -6,34 +6,38 @@ import est.wordwise.domain.wordtest.dto.AnswerDto;
 import est.wordwise.domain.wordtest.dto.WordTestDto;
 import est.wordwise.domain.wordtest.service.CreateWordTestService;
 import est.wordwise.domain.wordtest.service.StatisticsService;
-
+import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/wordtest")
+@RequestMapping("/wordtest")
 public class WordTestController {
+
     private final MemberService memberService;
     private final CreateWordTestService createWordTestService;
     private final StatisticsService statisticsService;
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<List<WordTestDto>> wordTest() {
         Member findMember = memberService.getCurrentMember();
-        List<WordTestDto> wordTestForMember = createWordTestService.createWordTestForMember(findMember);
+        List<WordTestDto> wordTestForMember = createWordTestService.createWordTestForMember(
+            findMember);
         return ResponseEntity.ok(wordTestForMember); // JSON 직접 반환
     }
 
     @PostMapping("/evaluate-answer")
-    public ResponseEntity<Map<String,Object>> statisticsProcesss(@RequestBody List<AnswerDto> answerCollection) {
+    public ResponseEntity<Map<String, Object>> statisticsProcesss(
+        @RequestBody List<AnswerDto> answerCollection) {
         log.info("received answerCollection: {}", answerCollection);
         // 여기도 현재 로그인된 정보를 담아서 service로 전달
         long member_id = 1;
