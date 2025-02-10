@@ -34,7 +34,7 @@ public class WordBookController {
     }
 
     // wordText로 개인 단어장 중에서 검색
-    @GetMapping("/search/{wordText}")
+    @GetMapping("/{wordText}")
     public ResponseEntity<?> getWordBookByWordText(@PathVariable String wordText) {
         WordBookDto wordBookDto = wordBookSearchService.getWordBookByWordText(wordText);
 
@@ -57,12 +57,6 @@ public class WordBookController {
     public ResponseEntity<WordBookDto> deleteWordBook(@PathVariable Long id) {
         return ResponseEntity.ok(wordBookService.deleteWordBook(id));
     }
-
-//    // 단어별 단어장 개수로 랭킹 조회
-//    @GetMapping("/ranking")
-//    public ResponseEntity<List<WordCountDto>> getWordBookRanking() {
-//        return ResponseEntity.ok(wordBookService.getWordBookRanking());
-//    }
 
     // 단어별 단어장 개수로 랭킹 조회(페이징)
     @GetMapping("/ranking")
