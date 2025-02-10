@@ -109,11 +109,16 @@ public class WordService {
             word = createWord(WordCreateDto.of(wordDto.getWordText(), wordDto.getDefinition()));
         }
 
+        Word finalWord = word;
         List<Example> examples = wordDto.getExampleDtos().stream()
-            .map(exampleDto -> exampleService.getExampleById(exampleDto.getId())).toList();
-        if (examples.getFirst() == null) {
-            examples = exampleService.createExamples(word, wordDto.getExampleDtos());
-        }
+            .map(exampleDto -> {
+                if (exampleService.getExampleBySentence(exampleDto.getSentence()) == null) {
+                    return exampleService.createExample(finalWord, exampleDto);
+                } else {
+                    return exampleService.getExampleBySentence(exampleDto.getSentence());
+                }
+            })
+            .toList();
 
         Member member = memberService.getCurrentMember();
 

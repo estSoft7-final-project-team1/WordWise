@@ -28,11 +28,20 @@ public class SecurityConfiguration {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .formLogin(AbstractHttpConfigurer::disable)
+                .sessionManagement(AbstractHttpConfigurer::disable)
+                .formLogin(form ->form
+                        .loginPage("/api/login")
+                        .defaultSuccessUrl("/")
+                        .failureUrl("/api/login")
+                        .permitAll()
+                )
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/api/login", "/api/signup")
-                        .permitAll()  // 회원가입, H2 콘솔 접근 허용
-                        .anyRequest().permitAll()
+                        .requestMatchers("/", "/api/login", "/api/signup","/api/signin","/api/chat","/chat-endpoint","/api/check-email", "/api/check-nickname").permitAll()
+//                        .requestMatchers("/ws/**").permitAll()
+                        .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
+                        .anyRequest().hasAnyAuthority("ROLE_MEMBER", "ROLE_ADMIN")
+//                        .anyRequest().authenticated()
+
                 )
                 .exceptionHandling(
                         exception -> exception.authenticationEntryPoint(
@@ -43,7 +52,7 @@ public class SecurityConfiguration {
                                 }
                         )
                 )
-                .addFilterBefore(jwtTokenFilter,UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtTokenFilter,UsernamePasswordAuthenticationFilter.class) // 질문
                 .logout(LogoutConfigurer::permitAll)
                 .build();
     }

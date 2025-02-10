@@ -2,7 +2,7 @@ package est.wordwise.common.entity;
 
 import est.wordwise.common.entity.commonEnum.memberEnums.AuthType;
 import est.wordwise.common.entity.commonEnum.memberEnums.SocialType;
-import est.wordwise.domain.security.dto.MemberSignupDto;
+import est.wordwise.domain.security.dto.MemberSignupRequest;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,7 +25,6 @@ public class Member {
     private String email;
     private String password;
     private String nickname;
-    private String phonenumber;
 
     // 경천님이 보시고 enum 쓰시는대로 수정하시면 됩니다
     @Enumerated(EnumType.STRING)
@@ -48,11 +47,11 @@ public class Member {
         this.password = password;
     }
 
-        public static Member from(MemberSignupDto memberSignupDto) {
+        public static Member from(MemberSignupRequest memberSignupRequest) {
         Member member = new Member();
-        member.nickname = memberSignupDto.getNickname();
-        member.email = memberSignupDto.getEmail();
-        member.password = memberSignupDto.getPassword();
+        member.nickname = memberSignupRequest.getNickname();
+        member.email = memberSignupRequest.getEmail();
+        member.password = memberSignupRequest.getPassword();
         member.provider = SocialType.FORMBASED;
         return member;
     }

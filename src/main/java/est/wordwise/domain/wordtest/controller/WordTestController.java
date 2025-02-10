@@ -27,8 +27,7 @@ public class WordTestController {
 
     @GetMapping("")
     public ResponseEntity<List<WordTestDto>> wordTest() {
-        long member_id = 1;
-        Member findMember = memberService.findMemberById(member_id);
+        Member findMember = memberService.getCurrentMember();
         List<WordTestDto> wordTestForMember = createWordTestService.createWordTestForMember(findMember);
         return ResponseEntity.ok(wordTestForMember); // JSON 직접 반환
     }
