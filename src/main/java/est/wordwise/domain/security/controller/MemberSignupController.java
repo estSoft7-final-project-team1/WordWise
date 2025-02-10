@@ -37,6 +37,7 @@ public class MemberSignupController {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
     @PostMapping("/signin")
     public ResponseEntity<Map<String,String>> login(@RequestBody SignInRequest object) {
         try {
