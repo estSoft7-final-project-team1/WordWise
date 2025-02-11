@@ -29,15 +29,18 @@ public class WordBookService {
     private final WordBookQueryRepository wordBookQueryRepository;
     private final MemberService memberService;
 
+    @Transactional
     public WordBook createWordBook(Member member, Word word) {
         return wordBookRepository.save(WordBook.of(member, word));
     }
 
+    @Transactional(readOnly = true)
     public WordBook getWordBookByMemberAndWord(Member member, Word word) {
         return wordBookRepository.findByMemberAndWordAndDeletedFalse(member, word).orElse(null);
     }
 
     // 단어장 전체 조회(페이징)
+    @Transactional(readOnly = true)
     public Page<WordBookDto> getWordBookList(int page) {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
 
@@ -50,11 +53,13 @@ public class WordBookService {
     }
 
     // id로 단어장 상세 조회
+    @Transactional(readOnly = true)
     public WordBook getWordBookById(Long wordBookId) {
         return wordBookRepository.findByIdAndDeletedFalse(wordBookId).orElse(null);
     }
 
     // id로 단어장 상세 조회(dto)
+    @Transactional(readOnly = true)
     public WordBookDto getWordBookDtoById(Long id) {
         return WordBookDto.from(getWordBookById(id));
     }

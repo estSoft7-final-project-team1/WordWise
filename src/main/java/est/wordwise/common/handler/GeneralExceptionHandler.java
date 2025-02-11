@@ -58,4 +58,12 @@ public class GeneralExceptionHandler {
                 .build();
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(StatisticsNotFoundException.class)
+    public ResponseEntity statisticsNotFound() {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .build();
+    }
+
 }

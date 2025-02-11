@@ -10,6 +10,7 @@ import est.wordwise.domain.wordtest.dto.WordTestDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class CreateWordTestService {
     private final WordBookRepository wordBookRepository;
 
     // 단어장 찾기
+    @Transactional(readOnly = true)
     public WordBook findWordBookById(Long exampleId) {
         return wordBookRepository.findById(exampleId).orElseThrow(
                 ()->new WordBookNotFoundException("해당 단어를 찾을 수 없습니다")
@@ -29,6 +31,7 @@ public class CreateWordTestService {
     }
 
     // 사용자가 저장한 단어 목록 뽑기
+    @Transactional(readOnly = true)
     public List<WordBook> findMyWordList(Member member) {
         List<WordBook> wordList = wordBookRepository.findByMember(member);
         if (wordList.isEmpty()) {
@@ -38,6 +41,7 @@ public class CreateWordTestService {
     }
 
     // 사용자가 저장한 예문 목록 불러오기
+    @Transactional(readOnly = true)
     public List<PersonalExample> findMyExampleList(List<WordBook> wordList)  {
         List<PersonalExample> personalExampleList = new ArrayList<>();
         for (WordBook wordBook : wordList) {
@@ -49,6 +53,7 @@ public class CreateWordTestService {
     }
 
     // 불러온 예문을 기반으로 문제 목록 생성
+    @Transactional(readOnly = true)
     public List<WordTestDto> createWordTestList (List<PersonalExample> personalExampleList) {
         return personalExampleList.stream()
                 .map(this::createWordTestDto)

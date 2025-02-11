@@ -4,6 +4,7 @@ package est.wordwise.domain.wordtest.service;
 import est.wordwise.common.entity.Member;
 import est.wordwise.common.entity.PersonalExample;
 import est.wordwise.common.entity.Statistics;
+import est.wordwise.common.exception.MemberNotFoundException;
 import est.wordwise.common.repository.ExampleRepository;
 import est.wordwise.common.repository.StatisticsRepository;
 import est.wordwise.common.repository.WordBookRepository;
@@ -46,9 +47,10 @@ public class StatisticsService {
     @Transactional(readOnly = true)
     public List<StatisticsDto> getStatistics(Member member) {
         List<Statistics> byMember = statisticsRepository.findByMemberOrderByIdDesc(member);
-        StatisticsDto statisticsDto = new StatisticsDto();
+
         List<StatisticsDto> statisticsDtoList = new ArrayList<>();
         for (Statistics statistics : byMember) {
+            StatisticsDto statisticsDto = new StatisticsDto();
             statisticsDto.setAnswer(statistics.getAnswer());
             statisticsDto.setUserAnswer(statistics.getUserAnswer());
             statisticsDto.setExample(statistics.getSentence());
