@@ -1,9 +1,6 @@
 package est.wordwise.common.handler;
 
-import est.wordwise.common.exception.DuplicatedNicknameException;
-import est.wordwise.common.exception.MemberNotFoundException;
-import est.wordwise.common.exception.SentenceNotFoundException;
-import est.wordwise.common.exception.WordBookNotFoundException;
+import est.wordwise.common.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -39,7 +36,7 @@ public class GeneralExceptionHandler {
                 .build();
     }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(DuplicatedNicknameException.class)
+    @ExceptionHandler(DuplicatedEmailException.class)
     public ResponseEntity duplicatedEmail() {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
@@ -54,7 +51,7 @@ public class GeneralExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    @ExceptionHandler(DuplicatedNicknameException.class)
+    @ExceptionHandler(AlanApiException.class)
     public ResponseEntity apanApiException() {
         return ResponseEntity
                 .status(HttpStatus.NOT_ACCEPTABLE)
