@@ -64,9 +64,10 @@ public class AlanApiService {
 
     // json을 word 도메인 객체로 변환
     public ResponseContent parseJsonToResponseContent(String jsonContent) {
-
         ObjectMapper objectMapper = new ObjectMapper();
         ResponseContent responseContent = null;
+
+        log.info("Alan api 응답 (json) = {}", jsonContent);
 
         int startIndex = jsonContent.indexOf('{');
         int endIndex = jsonContent.lastIndexOf('}');
