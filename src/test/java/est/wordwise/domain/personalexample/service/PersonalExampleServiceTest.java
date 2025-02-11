@@ -11,7 +11,7 @@ import est.wordwise.domain.security.service.MemberService;
 import est.wordwise.domain.alanapi.dto.ResponseContent;
 import est.wordwise.domain.alanapi.service.AlanApiService;
 import est.wordwise.domain.example.service.ExampleService;
-import est.wordwise.domain.security2.memberEnums.SocialType;
+import est.wordwise.common.entity.commonEnum.memberEnums.SocialType;
 import est.wordwise.domain.word.dto.WordCreateDto;
 import est.wordwise.domain.word.dto.WordDto;
 import est.wordwise.domain.word.service.WordService;

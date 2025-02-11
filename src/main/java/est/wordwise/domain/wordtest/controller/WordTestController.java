@@ -3,6 +3,7 @@ package est.wordwise.domain.wordtest.controller;
 import est.wordwise.common.entity.Member;
 import est.wordwise.domain.security.service.MemberService;
 import est.wordwise.domain.wordtest.dto.AnswerDto;
+import est.wordwise.domain.wordtest.dto.StatisticsDto;
 import est.wordwise.domain.wordtest.dto.WordTestDto;
 import est.wordwise.domain.wordtest.service.CreateWordTestService;
 import est.wordwise.domain.wordtest.service.StatisticsService;
@@ -40,9 +41,16 @@ public class WordTestController {
         @RequestBody List<AnswerDto> answerCollection) {
         log.info("received answerCollection: {}", answerCollection);
         // 여기도 현재 로그인된 정보를 담아서 service로 전달
-        long member_id = 1;
-        Member findMember = memberService.findMemberById(member_id);
+        Member findMember = memberService.getCurrentMember();
         statisticsService.statistics(answerCollection, findMember);
         return ResponseEntity.ok().body(Map.of("answer", answerCollection));
     }
+
+    @GetMapping("/statistics")
+    public ResponseEntity<List<StatisticsDto>> statisticsResult() {
+        Member findMember = memberService.getCurrentMember();
+        List<StatisticsDto> statistics = statisticsService.getStatistics(findMember);
+        return ResponseEntity.ok().body(statistics);
+    }
+
 }

@@ -35,7 +35,7 @@ public class SecurityConfiguration {
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/", "/login", "/signup", "/signin", "/chat", "/chat-endpoint",
                         "/check-email", "/check-nickname").permitAll()
-//                        .requestMatchers("/ws/**").permitAll()
+                            .requestMatchers("/ws/**").permitAll()
                     .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                     .anyRequest().hasAnyAuthority("ROLE_MEMBER", "ROLE_ADMIN")
 //                        .anyRequest().authenticated()
