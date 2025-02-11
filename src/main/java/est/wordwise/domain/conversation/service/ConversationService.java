@@ -1,5 +1,6 @@
 package est.wordwise.domain.conversation.service;
 
+import static est.wordwise.common.exception.AlanApiErrorCode.RESPONSE_ERROR;
 import static est.wordwise.domain.conversation.constants.ConversationConstants.PARAM_CLIENT_ID;
 import static est.wordwise.domain.conversation.constants.ConversationConstants.PARAM_QUESTION;
 import static est.wordwise.domain.conversation.constants.ConversationConstants.PROMPT;
@@ -9,15 +10,10 @@ import est.wordwise.common.exception.AlanApiErrorCode;
 import est.wordwise.common.exception.AlanApiException;
 import est.wordwise.domain.alanapi.config.AlanApiClientConfig;
 import est.wordwise.domain.alanapi.dto.Response;
-import est.wordwise.common.exception.AlanApiErrorCode;
-import est.wordwise.common.exception.AlanApiException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-
-import static est.wordwise.common.exception.AlanApiErrorCode.RESPONSE_ERROR;
-import static est.wordwise.domain.conversation.constants.ConversationConstants.*;
 
 @Slf4j
 @Service
@@ -35,7 +31,7 @@ public class ConversationService {
                 .uri(uriBuilder -> uriBuilder
                     .path(QUESTION)
                     .queryParam(PARAM_QUESTION, query)
-                    .queryParam(PARAM_CLIENT_ID, alanApiClientConfig.getId())
+                    .queryParam(PARAM_CLIENT_ID, alanApiClientConfig.getChatId())
                     .build())
                 .retrieve()
                 .body(Response.class);
@@ -59,7 +55,7 @@ public class ConversationService {
                 .uri(uriBuilder -> uriBuilder
                     .path(QUESTION)
                     .queryParam(PARAM_QUESTION, PROMPT)
-                    .queryParam(PARAM_CLIENT_ID, alanApiClientConfig.getId())
+                    .queryParam(PARAM_CLIENT_ID, alanApiClientConfig.getChatId())
                     .build())
                 .retrieve()
                 .body(Response.class);

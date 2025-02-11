@@ -9,11 +9,14 @@ import org.springframework.stereotype.Component;
 public class AlanApiClientConfig {
 
     private final String url;
-    private final String id;
+    private final String wordSearchId;
+    private final String chatId;
 
     public AlanApiClientConfig(@Value("${spring.alan-api.client.url}") String url,
-        @Value("${spring.alan-api.client.id}") String id) {
+        @Value("${spring.alan-api.client.word-search-id}") String wordSearchId,
+        @Value("${spring.alan-api.client.chat-id}") String chatId) {
         this.url = url;
-        this.id = id;
+        this.wordSearchId = wordSearchId;
+        this.chatId = chatId;
     }
 }

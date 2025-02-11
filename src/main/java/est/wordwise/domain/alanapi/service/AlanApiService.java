@@ -48,7 +48,7 @@ public class AlanApiService {
             response = restClientWithBaseUrl.get().uri(uriBuilder -> {
                 return uriBuilder.path(QUESTION)
                     .queryParam(PARAM_QUESTION, URLEncoder.encode(query, StandardCharsets.UTF_8))
-                    .queryParam(PARAM_CLIENT_ID, alanApiClientConfig.getId()).build();
+                    .queryParam(PARAM_CLIENT_ID, alanApiClientConfig.getWordSearchId()).build();
             }).retrieve().body(Response.class);
         } catch (Exception e) {
             throw new AlanApiException(AlanApiErrorCode.API_ERROR);
