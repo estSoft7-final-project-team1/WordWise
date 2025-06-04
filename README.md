@@ -158,7 +158,7 @@ Alan AI api를 활용한 영어 단어 학습 관련 다양한 서비스를 제�
 
   <tr>
    <td align="center"><b>PM/Front/Back/DB</b>
-    <br>로그인, 단어 테스트, 통계 기능, 프론트 개발
+    <br>로그인, 단어 테스트,챗봇회화 기능, 통계 기능, 프론트 개발
   </td>
 
    <td align="center"><b>Back/Front/DB</b>
