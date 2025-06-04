@@ -27,7 +27,35 @@ Alan AI api를 활용한 영어 단어 학습 관련 다양한 서비스를 제�
 - 2025.01.09 ~ 2025.01.13 : 기능 명세, ERD 작성, 협업 컨벤션 작성
 - 2025.01.14 ~ 2024.02.06 : 기능 개발
 - 2025.02.07 ~ 2025.01.10 : 최종 통합 및 디버깅
+  
+## 👨‍👩‍👦‍👦 팀원 역할
 
+<table>
+  <tr>
+    <td align="center"><img src="https://item.kakaocdn.net/do/fd49574de6581aa2a91d82ff6adb6c0115b3f4e3c2033bfd702a321ec6eda72c" width="100" height="100"/></td>
+    <td align="center"><img src="https://mb.ntdtv.kr/assets/uploads/2019/01/Screen-Shot-2019-01-08-at-4.31.55-PM-e1546932545978.png" width="100" height="100"/></td>
+    <td align="center"><img src="https://mblogthumb-phinf.pstatic.net/20160127_177/krazymouse_1453865104404DjQIi_PNG/%C4%AB%C4%AB%BF%C0%C7%C1%B7%BB%C1%EE_%B6%F3%C0%CC%BE%F0.png?type=w2" width="100" height="100"/></td>
+  </tr>
+  <tr>
+    <td align="center"><strong>문영훈</strong></td>
+    <td align="center"><strong>이경돈</strong></td>
+    <td align="center"><strong>오상훈</strong></td>
+  </tr>
+
+  <tr>
+   <td align="center"><b>PM/Front/Back/DB</b>
+    <br>로그인, 단어 테스트,챗봇회화 기능, 통계 기능, 프론트 개발
+  </td>
+
+   <td align="center"><b>Back/Front/DB</b>
+    <br>데이터 모델링, 단어 검색, 단어장 기능, 프론트 개발
+  </td>
+
+  <td align="center"><b>Front/Docs</b>
+    <br>프론트 개발, 문서화 작업
+  </td>
+ </tr>
+</table>
 ## ⭐ 주요 기능
 
 ## 단어 검색
@@ -142,32 +170,5 @@ Alan AI api를 활용한 영어 단어 학습 관련 다양한 서비스를 제�
 
 <img width="400" alt="chat" src="https://github.com/user-attachments/assets/9fd92ef6-4718-4335-8a27-3e16a185c33d" />
 
-## 👨‍👩‍👦‍👦 팀원 역할
 
-<table>
-  <tr>
-    <td align="center"><img src="https://item.kakaocdn.net/do/fd49574de6581aa2a91d82ff6adb6c0115b3f4e3c2033bfd702a321ec6eda72c" width="100" height="100"/></td>
-    <td align="center"><img src="https://mb.ntdtv.kr/assets/uploads/2019/01/Screen-Shot-2019-01-08-at-4.31.55-PM-e1546932545978.png" width="100" height="100"/></td>
-    <td align="center"><img src="https://mblogthumb-phinf.pstatic.net/20160127_177/krazymouse_1453865104404DjQIi_PNG/%C4%AB%C4%AB%BF%C0%C7%C1%B7%BB%C1%EE_%B6%F3%C0%CC%BE%F0.png?type=w2" width="100" height="100"/></td>
-  </tr>
-  <tr>
-    <td align="center"><strong>문영훈</strong></td>
-    <td align="center"><strong>이경돈</strong></td>
-    <td align="center"><strong>오상훈</strong></td>
-  </tr>
-
-  <tr>
-   <td align="center"><b>PM/Front/Back/DB</b>
-    <br>로그인, 단어 테스트,챗봇회화 기능, 통계 기능, 프론트 개발
-  </td>
-
-   <td align="center"><b>Back/Front/DB</b>
-    <br>데이터 모델링, 단어 검색, 단어장 기능, 프론트 개발
-  </td>
-
-  <td align="center"><b>Front/Docs</b>
-    <br>프론트 개발, 문서화 작업
-  </td>
- </tr>
-</table>
 
