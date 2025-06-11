@@ -146,31 +146,12 @@ Alan AI api를 활용한 영어 단어 학습 관련 다양한 서비스를 제�
 
 ![FINAL)ERD](https://github.com/user-attachments/assets/3ba1e56a-8bb1-44c6-ab5e-a759eeadbe13)
 
-## 🖥 화면 구성
-
-### 메인 페이지
-
-<img width="400" alt="word" src="https://github.com/user-attachments/assets/587e1fdc-a1d1-4529-a63a-25b8c04750b0" />
-
-### 단어 검색 페이지
-
-<img width="400" alt="wordbook" src="https://github.com/user-attachments/assets/c8126586-c9e0-4156-810d-11ea4a60df30" />
-
-### 단어장 페이지
-
-<img width="400" alt="wordtest" src="https://github.com/user-attachments/assets/ca56962d-bb52-4a79-95fe-a8908fac9ee3" />
-
-### 단어 랭킹 페이지
-
-<img width="400" alt="chat" src="https://github.com/user-attachments/assets/262df6b1-33f8-44e3-83c9-e7328867953c" />
-
-### 단어 테스트 페이지
-
-<img width="400" alt="chat" src="https://github.com/user-attachments/assets/378a3e5f-1deb-4705-9e2a-0079e65596be" />
-
-### 회화 채팅
-
-<img width="400" alt="chat" src="https://github.com/user-attachments/assets/9fd92ef6-4718-4335-8a27-3e16a185c33d" />
-
-
+| 화면 | 이미지 |
+|------|--------|
+| **메인 페이지** | <img src="https://github.com/user-attachments/assets/587e1fdc-a1d1-4529-a63a-25b8c04750b0" width="600"/> |
+| **단어 검색 페이지** | <img src="https://github.com/user-attachments/assets/c8126586-c9e0-4156-810d-11ea4a60df30" width="600"/> |
+| **단어장 페이지** | <img src="https://github.com/user-attachments/assets/ca56962d-bb52-4a79-95fe-a8908fac9ee3" width="600"/> |
+| **단어 랭킹 페이지** | <img src="https://github.com/user-attachments/assets/262df6b1-33f8-44e3-83c9-e7328867953c" width="600"/> |
+| **단어 테스트 페이지** | <img src="https://github.com/user-attachments/assets/378a3e5f-1deb-4705-9e2a-0079e65596be" width="600"/> |
+| **회화 채팅** | <img src="https://github.com/user-attachments/assets/9fd92ef6-4718-4335-8a27-3e16a185c33d" width="600"/> |
 
